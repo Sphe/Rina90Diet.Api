@@ -1,0 +1,2963 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: GlobContent.AdminServer.Api.Web
+  description: General API for GlobContent stable content
+basePath: /
+paths:
+
+#-----------------------------------------------------------
+# BlockChain Asset Management
+#-----------------------------------------------------------
+
+  /v1/blockchainAsset/byId:
+    get:
+      tags:
+        - BlockchainAssetApi
+      operationId: BlockchainAssetByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: blockchainBlockchainAssetId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainAssetDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainAsset/create:
+    post:
+      tags:
+        - BlockchainAssetApi
+      operationId: BlockchainAssetCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainAssetCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainAssetDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/blockchainAsset/list:
+    get:
+      tags:
+        - BlockchainAssetApi
+      operationId: BlockchainAssetListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BlockchainAssetDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/blockchainAsset/update:
+    put:
+      tags:
+        - BlockchainAssetApi
+      operationId: BlockchainAssetUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainAssetCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainAssetDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# BlockChain User Management
+#-----------------------------------------------------------
+			
+  /v1/blockchainUser/byId:
+    get:
+      tags:
+        - BlockchainUserApi
+      operationId: BlockchainUserByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: blockchainBlockchainAssetId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainUserDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainUser/create:
+    post:
+      tags:
+        - BlockchainUserApi
+      operationId: BlockchainUserCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainUserCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainUserDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainUser/list:
+    get:
+      tags:
+        - BlockchainUserApi
+      operationId: BlockchainUserListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BlockchainUserDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainUser/update:
+    put:
+      tags:
+        - BlockchainUserApi
+      operationId: BlockchainUserUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainUserCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainUserDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# BlockChain Management
+#-----------------------------------------------------------
+			
+  /v1/blockchain/byId:
+    get:
+      tags:
+        - BlockchainApi
+      operationId: BlockchainByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: blockchainId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchain/create:
+    post:
+      tags:
+        - BlockchainApi
+      operationId: BlockchainCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchain/list:
+    get:
+      tags:
+        - BlockchainApi
+      operationId: BlockchainListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BlockchainDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchain/update:
+    put:
+      tags:
+        - BlockchainApi
+      operationId: BlockchainUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# BlockChain Transaction Management
+#-----------------------------------------------------------
+			
+  /v1/blockchainTransaction/byId:
+    get:
+      tags:
+        - BlockchainTransactionApi
+      operationId: BlockchainTransactionByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: blockchainTransactionId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainTransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainTransaction/create:
+    post:
+      tags:
+        - BlockchainTransactionApi
+      operationId: BlockchainTransactionCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainTransactionCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainTransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainTransaction/list:
+    get:
+      tags:
+        - BlockchainTransactionApi
+      operationId: BlockchainTransactionListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BlockchainTransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/blockchainTransaction/update:
+    put:
+      tags:
+        - BlockchainTransactionApi
+      operationId: BlockchainTransactionUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/BlockchainTransactionCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/BlockchainTransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# Content Block Management
+#-----------------------------------------------------------
+			
+  /v1/content/byId:
+    get:
+      tags:
+        - ContentApi
+      operationId: ContentByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: contentId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ContentDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/content/create:
+    post:
+      tags:
+        - ContentApi
+      operationId: ContentCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/ContentCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ContentDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  /v1/content/list:
+    get:
+      tags:
+        - ContentApi
+      operationId: ContentListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ContentDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/content/update:
+    put:
+      tags:
+        - ContentApi
+      operationId: ContentUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/ContentCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ContentDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+ 
+			
+#-----------------------------------------------------------
+# Customer Management
+#-----------------------------------------------------------
+			
+  /v1/customer/byId:
+    get:
+      tags:
+        - CustomerApi
+      operationId: CustomerByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CustomerProfile'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/customer/byKycProcessId:
+    get:
+      tags:
+        - CustomerApi
+      operationId: CustomerByKycProcessIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: kycprocessId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerProfile'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/customer/create:
+    post:
+      tags:
+        - CustomerApi
+      operationId: CustomerCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/CustomerCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerProfile'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/customer/list:
+    get:
+      tags:
+        - CustomerApi
+      operationId: CustomerListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: sort
+          in: query
+          required: false
+          type: string
+        - name: Transaction
+          in: query
+          required: false
+          type: string
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CustomerProfilePage'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/customer/update:
+    put:
+      tags:
+        - CustomerApi
+      operationId: CustomerUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/CustomerCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerProfile'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/customer/me:
+    get:
+      tags:
+        - CustomerApi
+      operationId: CustomerMeGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CustomerProfile'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  
+#-----------------------------------------------------------
+# Transaction Management
+#-----------------------------------------------------------
+  
+  /v1/transaction/byId:
+    get:
+      tags:
+        - TransactionApi
+      operationId: TransactionByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: transactionId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/transaction/create:
+    post:
+      tags:
+        - TransactionApi
+      operationId: TransactionCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/TransactionCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/transaction/list:
+    get:
+      tags:
+        - TransactionApi
+      operationId: TransactionListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/transaction/update:
+    put:
+      tags:
+        - TransactionApi
+      operationId: TransactionUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/TransactionCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/TransactionDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# Coin Management
+#-----------------------------------------------------------
+			
+			
+  /v1/coin/todayBalanceEntries:
+    get:
+      tags:
+        - CoinApi
+      operationId: TodayBalanceEntriesGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: deviceId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CoinBalanceEntry'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/coin/balance:
+    get:
+      tags:
+        - CoinApi
+      operationId: CoinBalanceGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CoinBalanceKycProcess'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/coin/mint:
+    get:
+      tags:
+        - CoinApi
+      operationId: CoinCreditGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          type: string
+        - name: contentId
+          in: query
+          required: false
+          type: string
+        - name: TransactionId
+          in: query
+          required: false
+          type: string
+        - name: amount
+          in: query
+          required: false
+          type: number
+          format: double
+        - name: reason
+          in: query
+          required: false
+          type: string
+        - name: source
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CoinBalanceKycProcess'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/coin/burn:
+    get:
+      tags:
+        - CoinApi
+      operationId: CoinDebitGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          type: string
+        - name: contentId
+          in: query
+          required: false
+          type: string
+        - name: TransactionId
+          in: query
+          required: false
+          type: string
+        - name: amount
+          in: query
+          required: false
+          type: number
+          format: double
+        - name: reason
+          in: query
+          required: false
+          type: string
+        - name: source
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CoinBalanceKycProcess'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/coin/exchange:
+    post:
+      tags:
+        - CoinApi
+      operationId: CoinExchangePost
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          type: string
+        - name: contentIdSource
+          in: query
+          required: false
+          type: string
+        - name: contentIdDestination
+          in: query
+          required: false
+          type: string
+        - name: amountToExchange
+          in: query
+          required: false
+          type: number
+          format: double
+        - name: reason
+          in: query
+          required: false
+          type: string
+        - name: source
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CoinExchange'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  
+  /v1/coin/transfer:
+    get:
+      tags:
+        - CoinApi
+      operationId: CoinTransferGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: customerIdSource
+          in: query
+          required: false
+          type: string
+        - name: customerIdDestination
+          in: query
+          required: false
+          type: string
+        - name: contentId
+          in: query
+          required: false
+          type: string
+        - name: amount
+          in: query
+          required: false
+          type: number
+          format: double
+        - name: reason
+          in: query
+          required: false
+          type: string
+        - name: source
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/CoinTransfer'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# Registry Management
+#-----------------------------------------------------------
+					
+  /v1/registry/byBlockchainAsset:
+    get:
+      tags:
+        - RegistryApi
+      operationId: RegistryByKycProcessIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: string
+        - name: name
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RegistryDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+  /v1/registry/byBlockchainUser:
+    get:
+      tags:
+        - RegistryApi
+      operationId: RegistryByBlockchainUserGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: string
+        - name: name
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RegistryDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+  /v1/registry/byBlockchain:
+    get:
+      tags:
+        - RegistryApi
+      operationId: RegistrybyBlockchainGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: string
+        - name: name
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RegistryDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+  /v1/registry/byContent:
+    get:
+      tags:
+        - RegistryApi
+      operationId: RegistryByContentIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: string
+        - name: name
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RegistryDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  
+  /v1/registry/create:
+    post:
+      tags:
+        - RegistryApi
+      operationId: RegistryCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/RegistryCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/RegistryDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/registry/update:
+    put:
+      tags:
+        - RegistryApi
+      operationId: RegistryUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/RegistryCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/RegistryDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/registry/list:
+    get:
+      tags:
+        - RegistryApi
+      operationId: KycProcessListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/KycProcessDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# KYC Process Management
+#-----------------------------------------------------------
+			
+  /v1/kycprocess/byId:
+    get:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: kycprocessId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/KycProcessDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/attachDocument:
+    post:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessAttachDocPost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/KycProcessCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/KycProcessDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/refuseCustomer:
+    get:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessRefuseUserGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: kycprocessId
+          in: query
+          required: false
+          type: string
+        - name: customerId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: boolean
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/acceptCustomer:
+    get:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessAcceptCustomerGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: kycprocessId
+          in: query
+          required: false
+          type: string
+        - name: customerId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: boolean
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/existCustomer:
+    get:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessExistCustomerGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: kycprocessId
+          in: query
+          required: false
+          type: string
+        - name: customerId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: boolean
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/listCustomer:
+    get:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessListCustomerGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: kycprocessId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerProfile'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/create:
+    post:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/KycProcessCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/KycProcessDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/list:
+    get:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessListingGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/KycProcessDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/kycprocess/update:
+    put:
+      tags:
+        - KycProcessApi
+      operationId: KycProcessUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/KycProcessCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/KycProcessDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+#-----------------------------------------------------------
+# Client Messaging Management
+#-----------------------------------------------------------
+			
+  /v1/clientmessaging/byId:
+    get:
+      tags:
+        - ClientMessagingApi
+      operationId: ClientMessagingByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: clientmessagingId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ClientMessagingDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/clientmessaging/create:
+    post:
+      tags:
+        - ClientMessagingApi
+      operationId: ClientMessagingCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/ClientMessagingCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ClientMessagingDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/clientmessaging/list:
+    get:
+      tags:
+        - ClientMessagingApi
+      operationId: ClientMessagingListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ClientMessagingDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/clientmessaging/update:
+    put:
+      tags:
+        - ClientMessagingApi
+      operationId: ClientMessagingUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/ClientMessagingCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ClientMessagingDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+  
+#-----------------------------------------------------------
+# Workflow Management
+#-----------------------------------------------------------
+  
+  /v1/workflow/byId:
+    get:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowByIdGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: workflowId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/WorkflowDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/workflow/create:
+    post:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowCreatePost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/WorkflowCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/WorkflowDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/workflow/execute:
+    post:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowExecuteWithArgsPost
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/WorkflowExecutionWithArgs'
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/workflow/executeText:
+    post:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowExecuteContentPost
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/workflow/executeStored/byId:
+    get:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowExecuteStoredByIdPost
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: workflowId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/workflow/list:
+    get:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowListGet
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: skip
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: where
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WorkflowDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+      
+  /v1/workflow/update:
+    put:
+      tags:
+        - WorkflowApi
+      operationId: WorkflowUpdatePut
+      consumes:
+        - application/json-patch+json
+        - application/json
+        - text/json
+        - application/*+json
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/WorkflowCreateOrUpdate'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/WorkflowDescription'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false
+			
+#-----------------------------------------------------------
+# !!!!! OBJECT DEFINITION !!!!!
+#-----------------------------------------------------------
+			
+definitions:
+  BlockchainAssetDescription:
+    type: object
+    properties:
+      blockchainBlockchainAssetId:
+        type: string
+      kycprocessId:
+        type: string
+      blockchainUserId:
+        type: string
+      blockchainBlockchainAssetLabel:
+        type: string
+      blockchainBlockchainAssetSymbol:
+        type: string
+      name:
+        type: string
+      timestamp:
+        format: date-time
+        type: string
+  BlockchainAssetCreateOrUpdate:
+    type: object
+    properties:
+      blockchainBlockchainAssetId:
+        type: string
+      kycprocessId:
+        type: string
+      blockchainUserId:
+        type: string
+      blockchainBlockchainAssetLabel:
+        type: string
+      blockchainBlockchainAssetSymbol:
+        type: string
+      name:
+        type: string
+  BlockchainUserDescription:
+    type: object
+    properties:
+      blockchainUserId:
+        type: string
+      blockchainPublicKey:
+        type: string
+      blockchainPrivateKey:
+        type: string
+      blockchainId:
+        type: string
+      timestamp:
+        format: date-time
+        type: string
+  BlockchainUserCreateOrUpdate:
+    type: object
+    properties:
+      blockchainUserId:
+        type: string
+      blockchainPublicKey:
+        type: string
+      blockchainPrivateKey:
+        type: string
+      blockchainId:
+        type: string
+  BlockchainDescription:
+    type: object
+    properties:
+      blockchainId:
+        type: string
+      blockchainTransactionId:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      useBlockchainTransactionLogo:
+        type: boolean
+      address:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      zipCode:
+        type: string
+      countryId:
+        format: int32
+        type: integer
+      contactName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      homepage:
+        type: string
+      wifiSsid:
+        type: string
+      wifiPassword:
+        type: string
+      latitude:
+        format: float
+        type: number
+      longitude:
+        format: float
+        type: number
+      status:
+        format: int32
+        type: integer
+      lastUpdate:
+        format: date-time
+        type: string
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+  BlockchainCreateOrUpdate:
+    type: object
+    properties:
+      blockchainId:
+        type: string
+      blockchainTransactionId:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      useBlockchainTransactionLogo:
+        type: boolean
+      address:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      zipCode:
+        type: string
+      countryId:
+        format: int32
+        type: integer
+      contactName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      homepage:
+        type: string
+      wifiSsid:
+        type: string
+      wifiPassword:
+        type: string
+      latitude:
+        format: double
+        type: number
+      longitude:
+        format: double
+        type: number
+      status:
+        format: int32
+        type: integer
+      lastUpdate:
+        format: date-time
+        type: string
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+  BlockchainTransactionDescription:
+    type: object
+    properties:
+      blockchainTransactionId:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      isActive:
+        type: boolean
+      phone:
+        type: string
+      email:
+        type: string
+      contactName:
+        type: string
+      homepage:
+        type: string
+      facebookPage:
+        type: string
+      twitterPage:
+        type: string
+      status:
+        format: int32
+        type: integer
+      lastUpdate:
+        format: date-time
+        type: string
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+  BlockchainTransactionCreateOrUpdate:
+    type: object
+    properties:
+      blockchainTransactionId:
+        type: string
+      code:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      isActive:
+        type: boolean
+      phone:
+        type: string
+      email:
+        type: string
+      contactName:
+        type: string
+      homepage:
+        type: string
+      facebookPage:
+        type: string
+      twitterPage:
+        type: string
+      status:
+        format: int32
+        type: integer
+      lastUpdate:
+        format: date-time
+        type: string
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+  ContentDescription:
+    type: object
+    properties:
+      contentId:
+        type: string
+      kycprocessId:
+        type: string
+      kycprocessName:
+        type: string
+      contentName:
+        type: string
+      contentLabel:
+        type: string
+      contentSymbol:
+        type: string
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+  ContentCreateOrUpdate:
+    type: object
+    properties:
+      contentId:
+        type: string
+      kycprocessId:
+        type: string
+      contentName:
+        type: string
+      contentLabel:
+        type: string
+      contentSymbol:
+        type: string
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+  CoinBalanceKycProcess:
+    type: object
+    properties:
+      coinBalanceKycProcessId:
+        type: string
+      customerId:
+        type: string
+      contentId:
+        type: string
+      balanceAvailable:
+        format: double
+        type: number
+      creditAmount:
+        format: double
+        type: number
+      debitAmount:
+        format: double
+        type: number
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      reason:
+        type: string
+      activate:
+        type: boolean
+      history:
+        type: array
+        items:
+          $ref: '#/definitions/CoinBalanceEntry'
+  CoinBalanceEntry:
+    type: object
+    properties:
+      coinBalanceEntryId:
+        type: string
+      customerId:
+        type: string
+      contentId:
+        type: string
+      voucherId:
+        type: string
+      credit:
+        format: double
+        type: number
+      debit:
+        format: double
+        type: number
+      timestamp:
+        format: date-time
+        type: string
+      validated:
+        type: boolean
+      createdOn:
+        format: date-time
+        type: string
+      modifiedOn:
+        format: date-time
+        type: string
+      createdBy:
+        type: string
+      modifiedBy:
+        type: string
+      activate:
+        type: boolean
+  CustomerProfile:
+    type: object
+    properties:
+      customerId:
+        type: string
+      salutation:
+        type: string
+      firstlogin:
+        format: date-time
+        type: string
+      lastlogin:
+        format: date-time
+        type: string
+      registrationDate:
+        format: date-time
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      wallet:
+        type: array
+        items:
+          $ref: '#/definitions/CoinBalanceKycProcess'
+      postalAddress:
+        $ref: '#/definitions/Address'
+      picture:
+        type: string
+      active:
+        type: boolean
+      birthDate:
+        format: date-time
+        type: string
+      mobileLanguage:
+        type: string
+  Address:
+    type: object
+    properties:
+      entityName:
+        type: string
+      streetName:
+        type: string
+      streetNumber:
+        type: string
+      zipCode:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+  CustomerCreateOrUpdate:
+    type: object
+    properties:
+      customerId:
+        type: string
+      salutation:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      picture:
+        type: string
+      postalAddress:
+        $ref: '#/definitions/Address'
+      phone:
+        type: string
+      birthday:
+        format: date-time
+        type: string
+      mobileLanguage:
+        type: string
+  CustomerProfilePage:
+    type: object
+    properties:
+      total_count:
+        format: int64
+        type: integer
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/CustomerProfileList'
+  CustomerProfileList:
+    type: object
+    properties:
+      customerId:
+        type: string
+      salutation:
+        type: string
+      firstlogin:
+        format: date-time
+        type: string
+      lastlogin:
+        format: date-time
+        type: string
+      registrationDate:
+        format: date-time
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      walletSerialized:
+        type: string
+      active:
+        type: boolean
+      birthDate:
+        format: date-time
+        type: string
+      mobileLanguage:
+        type: string
+  FileStreamResult:
+    type: object
+    properties:
+      fileStream:
+        $ref: '#/definitions/Stream'
+      contentType:
+        type: string
+        readOnly: true
+      fileDownloadName:
+        type: string
+      lastModified:
+        format: date-time
+        type: string
+      entityTag:
+        $ref: '#/definitions/EntityTagHeaderValue'
+  Stream:
+    type: object
+    properties:
+      canRead:
+        type: boolean
+        readOnly: true
+      canSeek:
+        type: boolean
+        readOnly: true
+      canTimeout:
+        type: boolean
+        readOnly: true
+      canWrite:
+        type: boolean
+        readOnly: true
+      length:
+        format: int64
+        type: integer
+        readOnly: true
+      position:
+        format: int64
+        type: integer
+      readTimeout:
+        format: int32
+        type: integer
+      writeTimeout:
+        format: int32
+        type: integer
+  EntityTagHeaderValue:
+    type: object
+    properties:
+      tag:
+        $ref: '#/definitions/StringSegment'
+        readOnly: true
+      isWeak:
+        type: boolean
+        readOnly: true
+  StringSegment:
+    type: object
+    properties:
+      buffer:
+        type: string
+        readOnly: true
+      offset:
+        format: int32
+        type: integer
+        readOnly: true
+      length:
+        format: int32
+        type: integer
+        readOnly: true
+      value:
+        type: string
+        readOnly: true
+      hasValue:
+        type: boolean
+        readOnly: true
+  TransactionDescription:
+    type: object
+    properties:
+      TransactionId:
+        type: string
+      TransactionStatusId:
+        type: string
+      customerId:
+        type: string
+      contentId:
+        type: string
+      TransactionNumber:
+        type: string
+      subTotal:
+        format: double
+        type: number
+      taxAmount:
+        format: double
+        type: number
+      grandTotal:
+        format: double
+        type: number
+      finalTotal:
+        format: double
+        type: number
+      timestamp:
+        format: date-time
+        type: string
+  TransactionCreateOrUpdate:
+    type: object
+    properties:
+      TransactionId:
+        type: string
+      TransactionStatusId:
+        type: string
+      customerId:
+        type: string
+      contentId:
+        type: string
+      TransactionNumber:
+        type: string
+      subTotal:
+        format: double
+        type: number
+      taxAmount:
+        format: double
+        type: number
+      grandTotal:
+        format: double
+        type: number
+      finalTotal:
+        format: double
+        type: number
+      timestamp:
+        format: date-time
+        type: string
+  CoinExchange:
+    type: object
+    properties:
+      coinSource:
+        $ref: '#/definitions/CoinValue'
+      coinDestination:
+        $ref: '#/definitions/CoinValue'
+      timestamp:
+        format: date-time
+        type: string
+      success:
+        type: boolean
+      reason:
+        type: string
+  CoinValue:
+    type: object
+    properties:
+      contentId:
+        type: string
+      coinBalance:
+        format: double
+        type: number
+      blockchainBlockchainAssetSymbol:
+        type: string
+  CoinTransfer:
+    type: object
+    properties:
+      customerIdSource:
+        type: string
+      customerIdDestination:
+        type: string
+      contentId:
+        type: string
+      coinValueDebitFromSource:
+        $ref: '#/definitions/CoinValue'
+      coinValueCreditToDestination:
+        $ref: '#/definitions/CoinValue'
+      timestamp:
+        format: date-time
+        type: string
+      success:
+        type: boolean
+      reason:
+        type: string
+  SpecificTransaction:
+    type: object
+    properties:
+      expiration:
+        format: date-time
+        type: string
+      price:
+        format: double
+        type: number
+  RegistryDescription:
+    type: object
+    properties:
+      registryGenericAttributeId:
+        type: string
+      kycprocessId:
+        type: string
+      genericAttributeId:
+        type: string
+      name:
+        type: string
+      timestamp:
+        format: date-time
+        type: string
+      keyValue:
+        type: string
+      itemValue:
+        type: object
+  RegistryCreateOrUpdate:
+    type: object
+    properties:
+      registryGenericAttributeId:
+        type: string
+      kycprocessId:
+        type: string
+      genericAttributeId:
+        type: string
+      name:
+        type: string
+      timestamp:
+        format: date-time
+        type: string
+      keyValue:
+        type: string
+      itemValue:
+        type: object
+  KycProcessDescription:
+    type: object
+    properties:
+      kycprocessId:
+        type: string
+      name:
+        type: string
+      coinLabel:
+        type: string
+      picture:
+        type: string
+      timestamp:
+        format: date-time
+        type: string
+      userNumber:
+        format: int32
+        type: integer
+      logoInBase64:
+        type: string
+      primaryColorInHex:
+        type: string
+      textColorInHex:
+        type: string
+      productPictureInBase64:
+        type: string
+      websiteUrl:
+        type: string
+      hasOneVoucherHack:
+        type: boolean
+      iconSet:
+        type: string
+      emailRedeem:
+        type: boolean
+      brandUniverseDataString:
+        type: string
+  KycProcessCreateOrUpdate:
+    type: object
+    properties:
+      kycprocessId:
+        type: string
+      name:
+        type: string
+      coinLabel:
+        type: string
+      picture:
+        type: string
+      logoInBase64:
+        type: string
+      primaryColorInHex:
+        type: string
+      textColorInHex:
+        type: string
+      productPictureInBase64:
+        type: string
+      websiteUrl:
+        type: string
+      hasOneVoucherHack:
+        type: boolean
+      iconSet:
+        type: string
+      emailRedeem:
+        type: boolean
+      brandUniverseDataString:
+        type: string
+  ClientMessagingDescription:
+    type: object
+    properties:
+      clientmessagingId:
+        type: string
+      redemptionId:
+        type: string
+      clientmessagingedAmount:
+        format: double
+        type: number
+      debitedCoins:
+        format: double
+        type: number
+      timestamp:
+        format: date-time
+        type: string
+  ClientMessagingCreateOrUpdate:
+    type: object
+    properties:
+      clientmessagingId:
+        type: string
+      redemptionId:
+        type: string
+      clientmessagingedAmount:
+        format: double
+        type: number
+  WorkflowDescription:
+    type: object
+    properties:
+      workflowId:
+        type: string
+      workflowTypeId:
+        type: string
+      categoryId:
+        type: string
+      cultureId:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      body:
+        type: string
+      isComponent:
+        type: boolean
+      isEntryCoin:
+        type: boolean
+      hasArguments:
+        type: boolean
+      arguments:
+        type: object
+        additionalProperties:
+          type: object
+      timeStamp:
+        format: date-time
+        type: string
+  WorkflowCreateOrUpdate:
+    type: object
+    properties:
+      workflowId:
+        type: string
+      workflowTypeId:
+        type: string
+      categoryId:
+        type: string
+      cultureId:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      body:
+        type: string
+      isComponent:
+        type: boolean
+      isEntryCoin:
+        type: boolean
+      hasArguments:
+        type: boolean
+      arguments:
+        type: object
+        additionalProperties:
+          type: object
+      timeStamp:
+        format: date-time
+        type: string
+  WorkflowExecutionWithArgs:
+    type: object
+    properties:
+      workflowId:
+        type: string
+      lycJsContent:
+        type: string
+      timeout:
+        format: int32
+        type: integer
+      dicoArgs:
+        type: object
+        additionalProperties:
+          type: object
+      debug:
+        type: boolean
+securityDefinitions:
+  Bearer:
+    name: Authorization
+    in: header
+    type: apiKey
+    description: 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"'

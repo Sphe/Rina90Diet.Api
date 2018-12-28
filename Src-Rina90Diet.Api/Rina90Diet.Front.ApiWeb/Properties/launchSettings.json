@@ -1,0 +1,23 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:4447",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "Rina90Diet.Front.ApiWeb": {
+      "commandName": "Project"
+    },
+    "IISEXPRESS TEST": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:4447",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "TEST"
+      }
+    }
+  }
+}

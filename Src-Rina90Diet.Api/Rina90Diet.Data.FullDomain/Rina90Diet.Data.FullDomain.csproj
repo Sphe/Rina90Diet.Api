@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <!--<OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>-->
+    
+    <AssemblyName>Rina90Diet.Data.FullDomain</AssemblyName>
+    <PackageId>Rina90Diet.Data.FullDomain</PackageId>
+    <GenerateAssembRina90DietonfigurationAttribute>false</GenerateAssembRina90DietonfigurationAttribute>
+    <GenerateAssembRina90DietompanyAttribute>false</GenerateAssembRina90DietompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rina90Diet.Common.Core\Rina90Diet.Common.Core.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Common.Data\Rina90Diet.Common.Data.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Common.Web.Mvc\Rina90Diet.Common.Web.Mvc.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Common.WebApi\Rina90Diet.Common.WebApi.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Model.FullDomain\Rina90Diet.Model.FullDomain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+
+</Project>

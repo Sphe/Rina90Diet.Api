@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Rina90Diet.Service</AssemblyName>
+    <PackageId>Rina90Diet.Service</PackageId>
+    <GenerateAssembRina90DietonfigurationAttribute>false</GenerateAssembRina90DietonfigurationAttribute>
+    <GenerateAssembRina90DietompanyAttribute>false</GenerateAssembRina90DietompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Audit.NET" Version="12.1.7" />
+    <PackageReference Include="Audit.WebApi" Version="12.1.7" />
+    <PackageReference Include="AutoMapper" Version="7.0.0" />
+    <PackageReference Include="Confluent.Kafka" Version="0.11.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
+    <PackageReference Include="NEST" Version="6.1.0" />
+    <PackageReference Include="Nethereum.ABI" Version="3.0.0" />
+    <PackageReference Include="Nethereum.HdWallet" Version="3.0.0" />
+    <PackageReference Include="Nethereum.StandardTokenEIP20" Version="3.0.0" />
+    <PackageReference Include="Nethereum.Web3" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="System.Reactive.Core" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Interfaces" Version="4.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rina90Diet.Common.Core\Rina90Diet.Common.Core.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Common.Data\Rina90Diet.Common.Data.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Common.Web.Mvc\Rina90Diet.Common.Web.Mvc.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Common.WebApi\Rina90Diet.Common.WebApi.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Data.FullDomain\Rina90Diet.Data.FullDomain.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Data.Repository.FullDomain\Rina90Diet.Data.Repository.FullDomain.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Dto\Rina90Diet.Dto.csproj" />
+    <ProjectReference Include="..\Rina90Diet.Model.FullDomain\Rina90Diet.Model.FullDomain.csproj" />
+  </ItemGroup>
+
+</Project>
