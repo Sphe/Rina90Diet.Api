@@ -119,26 +119,23 @@ namespace Rina90Diet.Service.BusinessImplService
                         {
                             labelRating = "OnTrack";
                         }
-
-                        if (listStats1[i1].CurrentRealLossDifference.Value < (decimal)-1)
+                        else if (listStats1[i1].CurrentRealLossDifference.Value < (decimal)-1)
                         {
                             labelRating = "Outperform";
                         }
-
-                        if (listStats1[i1].CurrentRealLossDifference.Value < (decimal)-0.5)
+                        else if(listStats1[i1].CurrentRealLossDifference.Value < (decimal)-0.5)
                         {
                             labelRating = "Green";
                         }
-
-                        if (listStats1[i1].CurrentRealLossDifference.Value > (decimal)0.5)
+                        else if (listStats1[i1].CurrentRealLossDifference.Value > (decimal)1)
+                        {
+                            labelRating = "Danger";
+                        }
+                        else if(listStats1[i1].CurrentRealLossDifference.Value > (decimal)0.5)
                         {
                             labelRating = "Red";
                         }
 
-                        if (listStats1[i1].CurrentRealLossDifference.Value > (decimal)1)
-                        {
-                            labelRating = "Danger";
-                        }
 
                         listStats1[i1].CurrentRatingInString = labelRating;
                     }
