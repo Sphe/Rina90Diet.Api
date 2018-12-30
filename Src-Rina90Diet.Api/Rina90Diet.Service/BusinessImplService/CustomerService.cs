@@ -121,7 +121,6 @@ namespace Rina90Diet.Service
             {
                 us = _userRepository.DbSet
                     .Include("People")
-                    .Include("Userverificationstatus")
                     //.Include("People.Phone")
                     .Where(x => x.Userid.ToString() == customerId)
                 .ToList();

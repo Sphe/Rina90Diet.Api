@@ -6,13 +6,13 @@ metadata:
   creationTimestamp: null
   generation: 1
   labels:
-    component: payglx-admin-api
-  name: payglx-admin-api
+    component: rinadiet-api
+  name: rinadiet-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: payglx-admin-api
+      component: rinadiet-api
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -22,14 +22,14 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        component: payglx-admin-api
+        component: rinadiet-api
     spec:
       containers:
       - env:
-        image: www.payglx.com:5132/payglx-admin-api:latest
+        image: www.payglx.com:5132/rinadiet-api:latest
         args: ["--urls", "http://*:5000"]
         imagePullPolicy: Always
-        name: payglx-admin-api
+        name: rinadiet-api
         ports:
         - containerPort: 5000
           protocol: TCP

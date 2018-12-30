@@ -3,16 +3,16 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    component: payglx-admin-api
-  name: payglx-admin-api
+    component: rinadiet-api
+  name: rinadiet-api
 spec:
   ports:
-  - name: payglx-admin-api-port
+  - name: rinadiet-api-port
     port: 5000
     protocol: TCP
     targetPort: 5000
   selector:
-    component: payglx-admin-api
+    component: rinadiet-api
   sessionAffinity: None
   type: ClusterIP
 status:
