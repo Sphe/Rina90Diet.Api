@@ -8,6 +8,7 @@ using Rina90Diet.Dto;
 using Rina90Diet.Data.FullDomain;
 using Rina90Diet.Service.BusinessImplService.Contract;
 using Rina90Diet.Model.FullDomain;
+using Rina90Diet.Front.ApiWeb;
 
 namespace Rina90Diet.ApiController.Controllers
 { 

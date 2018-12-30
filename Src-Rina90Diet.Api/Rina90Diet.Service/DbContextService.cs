@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.Data.Infrastructure;
 using Rina90Diet.Data.FullDomain;
+using Rina90Diet.Front.ApiWeb;
 using Rina90Diet.Model.FullDomain;
 using Rina90Diet.Service.Contract;
 

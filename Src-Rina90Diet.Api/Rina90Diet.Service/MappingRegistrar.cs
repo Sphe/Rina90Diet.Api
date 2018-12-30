@@ -7,6 +7,7 @@ using Rina90Diet.Dto;
 using Rina90Diet.Service.Json;
 using Rina90Diet.Model.FullDomain;
 using System.Reflection;
+using Rina90Diet.Front.ApiWeb;
 
 namespace Rina90Diet.Service
 {
@@ -33,35 +34,15 @@ namespace Rina90Diet.Service
                         .ForMember(opt => opt.Firstname, x => x.MapFrom(x2 => x2.FirstName))
                         .ForMember(opt => opt.Title, x => x.MapFrom(x2 => x2.Title))
                         .ForMember(opt => opt.Middlename, x => x.MapFrom(x2 => x2.MiddleName))
-                        .ForMember(opt => opt.Lastname, x => x.MapFrom(x2 => x2.LastName))
-
-                        .ForMember(opt => opt.Dateofbirth, x => x.MapFrom(x2 => x2.DateOfBirth))
-                        .ForMember(opt => opt.Nationality, x => x.MapFrom(x2 => x2.Nationality))
-                        .ForMember(opt => opt.Addressline1, x => x.MapFrom(x2 => x2.AddressLine1))
-                        .ForMember(opt => opt.Addressline2, x => x.MapFrom(x2 => x2.AddressLine2))
-                        .ForMember(opt => opt.City, x => x.MapFrom(x2 => x2.City))
-                        .ForMember(opt => opt.Zipcode, x => x.MapFrom(x2 => x2.ZipCode))
-                        .ForMember(opt => opt.Country, x => x.MapFrom(x2 => x2.Country))
-                        .ForMember(opt => opt.Phonenumber, x => x.MapFrom(x2 => x2.PhoneNumber))
-                        .ForMember(opt => opt.Telegramuser, x => x.MapFrom(x2 => x2.TelegramUser));
+                        .ForMember(opt => opt.Lastname, x => x.MapFrom(x2 => x2.LastName));
 
                     cfg.CreateMap<People, CustomerCreateOrUpdate>()
                         .ForMember(opt => opt.Email, x => x.MapFrom(x2 => x2.Email))
                         .ForMember(opt => opt.FirstName, x => x.MapFrom(x2 => x2.Firstname))
                         .ForMember(opt => opt.Title, x => x.MapFrom(x2 => x2.Title))
                         .ForMember(opt => opt.MiddleName, x => x.MapFrom(x2 => x2.Middlename))
-                        .ForMember(opt => opt.LastName, x => x.MapFrom(x2 => x2.Lastname))
-
-                        .ForMember(opt => opt.DateOfBirth, x => x.MapFrom(x2 => x2.Dateofbirth))
-                        .ForMember(opt => opt.Nationality, x => x.MapFrom(x2 => x2.Nationality))
-                        .ForMember(opt => opt.AddressLine1, x => x.MapFrom(x2 => x2.Addressline1))
-                        .ForMember(opt => opt.AddressLine2, x => x.MapFrom(x2 => x2.Addressline2))
-                        .ForMember(opt => opt.City, x => x.MapFrom(x2 => x2.City))
-                        .ForMember(opt => opt.ZipCode, x => x.MapFrom(x2 => x2.Zipcode))
-                        .ForMember(opt => opt.Country, x => x.MapFrom(x2 => x2.Country))
-                        .ForMember(opt => opt.PhoneNumber, x => x.MapFrom(x2 => x2.Phonenumber))
-                        .ForMember(opt => opt.TelegramUser, x => x.MapFrom(x2 => x2.Telegramuser));
-
+                        .ForMember(opt => opt.LastName, x => x.MapFrom(x2 => x2.Lastname));
+                        
                     //!!!!!! User
                     cfg.CreateMap<User, CustomerCreateOrUpdate>()
                         .ForMember(d => d.CustomerId, opt => opt.MapFrom(f => f.Userid))
@@ -80,19 +61,8 @@ namespace Rina90Diet.Service
                     .ForMember(d => d.MiddleName, opt => opt.MapFrom(f => f.People != null ? f.People.Middlename : null))
                     .ForMember(d => d.Title, opt => opt.MapFrom(f => f.People != null ? f.People.Title : null))
                     .ForMember(d => d.LastName, opt => opt.MapFrom(f => f.People != null ? f.People.Lastname : null))
-                    .ForMember(d => d.Nationality, opt => opt.MapFrom(f => f.People != null ? f.People.Nationality : null))
 
                     .ForMember(d => d.MiddleName, opt => opt.MapFrom(f => f.People != null ? f.People.Middlename : null))
-                    .ForMember(d => d.AddressLine1, opt => opt.MapFrom(f => f.People != null ? f.People.Addressline1 : null))
-                    .ForMember(d => d.AddressLine2, opt => opt.MapFrom(f => f.People != null ? f.People.Addressline2 : null))
-                    .ForMember(d => d.City, opt => opt.MapFrom(f => f.People != null ? f.People.City : null))
-                    .ForMember(d => d.Country, opt => opt.MapFrom(f => f.People != null ? f.People.Country : null))
-                    .ForMember(d => d.DateOfBirth, opt => opt.MapFrom(f => f.People != null ? f.People.Dateofbirth : null))
-                    .ForMember(d => d.ZipCode, opt => opt.MapFrom(f => f.People != null ? f.People.Zipcode : null))
-                    .ForMember(d => d.PhoneNumber, opt => opt.MapFrom(f => f.People != null ? f.People.Phonenumber : null))
-                    .ForMember(d => d.TelegramUser, opt => opt.MapFrom(f => f.People != null ? f.People.Telegramuser : null))
-
-                    .ForMember(d => d.KycStatus, opt => opt.MapFrom(f => f.Userverificationstatus != null ? f.Userverificationstatus.Name : null))
                     ;
 
                     cfg.CreateMap<CustomerCreateOrUpdate, User>()
@@ -167,17 +137,58 @@ namespace Rina90Diet.Service
 
                     cfg.CreateMap<Usergenericattributemap, UserGenericAttributeDto>();
 
-                    cfg.CreateMap<UserVerificationStatusDto, Userverificationstatus>();
-
-                    cfg.CreateMap<Userverificationstatus, UserVerificationStatusDto>();
-
-                    cfg.CreateMap<UserBlockchainAdressDto, Userblockchainaddress>();
-
-                    cfg.CreateMap<Userblockchainaddress, UserBlockchainAdressDto>();
-
                     //cfg.CreateMap<ContentBlockImageMapDto, Contentblockimagemap>();
 
                     //cfg.CreateMap<Contentblockimagemap, ContentBlockImageMapDto>();
+
+
+
+                    cfg.CreateMap<RinaCustomerProfile, Customerprofile>()
+                        .ForMember(d => d.Customerprofileid, opt => opt.MapFrom(f => string.IsNullOrWhiteSpace(f.CustomerProfileId) ? 0 : Convert.ToInt32(f.CustomerProfileId)))
+                        .ForMember(d => d.Userid, opt => opt.MapFrom(f => string.IsNullOrWhiteSpace(f.CustomerId) ? 0 : Convert.ToInt32(f.CustomerId)))
+                        .ForMember(d => d.Currentimc, opt => opt.MapFrom(f => f.CurrentImc))
+                        .ForMember(d => d.Initialimc, opt => opt.MapFrom(f => f.InitialImc))
+                        .ForMember(d => d.Targetimc, opt => opt.MapFrom(f => f.TargetImc))
+                        .ForMember(d => d.Iswaterday, opt => opt.MapFrom(f => f.IsWaterDay))
+                        .ForMember(d => d.Currentweight, opt => opt.MapFrom(f => f.CurrentWeight))
+                        .ForMember(d => d.Initialweight, opt => opt.MapFrom(f => f.InitialWeight))
+                        .ForMember(d => d.Targetweight, opt => opt.MapFrom(f => f.TargetWeight))
+                        .ForMember(d => d.Numberdietdays, opt => opt.MapFrom(f => f.TotalDietDays))
+                        .ForMember(d => d.Startdate, opt => opt.MapFrom(f => f.StartDate))
+                        .ForMember(d => d.Enddate, opt => opt.MapFrom(f => f.EndDate))
+                        .ForMember(d => d.Heightinm, opt => opt.MapFrom(f => f.HeightInM));
+
+                    cfg.CreateMap<Customerprofile, RinaCustomerProfile>()
+                        .ForMember(d => d.CustomerProfileId, opt => opt.MapFrom(f => f.Customerprofileid.ToString()))
+                        .ForMember(d => d.CustomerId, opt => opt.MapFrom(f => f.Userid.ToString()))
+                        .ForMember(d => d.CurrentImc, opt => opt.MapFrom(f => f.Currentimc))
+                        .ForMember(d => d.InitialImc, opt => opt.MapFrom(f => f.Initialimc))
+                        .ForMember(d => d.TargetImc, opt => opt.MapFrom(f => f.Targetimc))
+                        .ForMember(d => d.IsWaterDay, opt => opt.MapFrom(f => f.Iswaterday))
+                        .ForMember(d => d.CurrentWeight, opt => opt.MapFrom(f => f.Currentweight))
+                        .ForMember(d => d.InitialWeight, opt => opt.MapFrom(f => f.Initialweight))
+                        .ForMember(d => d.TargetWeight, opt => opt.MapFrom(f => f.Targetweight))
+                        .ForMember(d => d.TotalDietDays, opt => opt.MapFrom(f => f.Numberdietdays))
+                        .ForMember(d => d.StartDate, opt => opt.MapFrom(f => f.Startdate))
+                        .ForMember(d => d.EndDate, opt => opt.MapFrom(f => f.Enddate))
+                        .ForMember(d => d.HeightInM, opt => opt.MapFrom(f => f.Heightinm));
+
+
+                    cfg.CreateMap<CustomerWeightEntry, Customerweightentry>()
+                        .ForMember(d => d.Customerprofileid, opt => opt.MapFrom(f => string.IsNullOrWhiteSpace(f.CustomerProfileId) ? 0 : Convert.ToInt32(f.CustomerProfileId)))
+                        .ForMember(d => d.Customerweightentryid, opt => opt.MapFrom(f => string.IsNullOrWhiteSpace(f.CustomerWeightEntryId) ? 0 : Convert.ToInt32(f.CustomerWeightEntryId)))
+                        .ForMember(d => d.Indexday, opt => opt.MapFrom(f => f.IndexDay))
+                        .ForMember(d => d.Timestamp, opt => opt.MapFrom(f => f.TimeStamp))
+                        .ForMember(d => d.Weightinkg, opt => opt.MapFrom(f => f.WeightInKg));
+
+                    cfg.CreateMap<Customerweightentry, CustomerWeightEntry>()
+                        .ForMember(d => d.CustomerProfileId, opt => opt.MapFrom(f => f.Customerprofileid.ToString()))
+                        .ForMember(d => d.CustomerWeightEntryId, opt => opt.MapFrom(f => f.Customerweightentryid.ToString()))
+                        .ForMember(d => d.IndexDay, opt => opt.MapFrom(f => f.Indexday))
+                        .ForMember(d => d.TimeStamp, opt => opt.MapFrom(f => f.Timestamp))
+                        .ForMember(d => d.WeightInKg, opt => opt.MapFrom(f => f.Weightinkg));
+
+
 
                 });
 

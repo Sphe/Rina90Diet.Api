@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using IO.Swagger.Models;
 using Newtonsoft.Json;
 using Rina90Diet.Model.FullDomain;
+using Rina90Diet.Front.ApiWeb;
 
 namespace Rina90Diet.ApiController.Controllers
 {

@@ -10,6 +10,7 @@ using Rina90Diet.Dto;
 using AutoMapper;
 using Rina90Diet.Data.FullDomain;
 using Rina90Diet.Model.FullDomain;
+using Rina90Diet.Front.ApiWeb;
 
 namespace Rina90Diet.ApiController.Controllers
 {

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Rina90Diet.Data.FullDomain;
+using Rina90Diet.Front.ApiWeb;
 
 namespace Rina90Diet.Service
 {

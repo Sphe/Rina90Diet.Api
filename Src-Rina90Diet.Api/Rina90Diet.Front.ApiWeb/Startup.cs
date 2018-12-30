@@ -95,6 +95,8 @@ namespace Rina90Diet.Front.ApiWeb
 
             services.AddSingleton(typeof(IRina90DietBusinessService), typeof(Rina90DietBusinessService));
 
+            services.AddTransient(typeof(IRinaDietService), typeof(RinaDietService));
+
             services.AddMvc();
 
             // ********************

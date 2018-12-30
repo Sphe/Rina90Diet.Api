@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Rina90Diet.Model.FullDomain;
+using Rina90Diet.Front.ApiWeb;
 
 namespace Rina90Diet.Data.FullDomain.Infrastructure
 {
