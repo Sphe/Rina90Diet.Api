@@ -244,6 +244,21 @@ namespace Rina90Diet.Service.BusinessImplService
                     _logger.LogError($"Can't AddWeight ! { JsonConvert.SerializeObject(e1, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })} ");
                 }
 
+                var lstWeight = await _weightEntryService.GetListByPredicateAsync(x1 => x1.Customerprofileid.Value.ToString() == profile.CustomerProfileId);
+
+                var profileNew = await GetProfileByCustomerId(customerId);
+                profileNew.CurrentWeight = lstWeight.OrderByDescending(x1 => x1.TimeStamp).First().WeightInKg;
+                profileNew.CurrentImc = CalculateImc(profileNew.CurrentWeight, profileNew.HeightInM);
+                profileNew.Modifiedon = DateTime.Now;
+
+                await _genService.UpdateAsync(profileNew, x1 => x1.Customerprofileid.ToString() == profileNew.CustomerProfileId);
+                var errors2 = await _unitOfWork.CommitHandledAsync();
+
+                if (!errors2)
+                {
+                    _logger.LogError($"Can't Update Profile ! { JsonConvert.SerializeObject(e1, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })} ");
+                }
+
                 return u1;
             }
 

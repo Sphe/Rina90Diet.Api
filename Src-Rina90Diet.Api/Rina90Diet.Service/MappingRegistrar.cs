@@ -52,7 +52,7 @@ namespace Rina90Diet.Service
                         .ForMember(d => d.Userid, opt => opt.MapFrom(f => string.IsNullOrWhiteSpace(f.CustomerId) ? 0 : Convert.ToInt32(f.CustomerId)))
                         .ForMember(d => d.Username, opt => opt.MapFrom(f => f.Email))
                         .ForMember(d => d.Email, opt => opt.MapFrom(f => f.Email))
-                        .ForMember(d => d.Password, opt => opt.MapFrom(f => string.Empty));
+                        .ForMember(d => d.Password, opt => opt.MapFrom(f => f.Password));
 
                     cfg.CreateMap<User, CustomerProfile>()
                     .ForMember(d => d.CustomerId, opt => opt.MapFrom(f => f.Userid))
@@ -69,7 +69,7 @@ namespace Rina90Diet.Service
                         .ForMember(d => d.Userid, opt => opt.MapFrom(f => string.IsNullOrWhiteSpace(f.CustomerId) ? 0 : Convert.ToInt32(f.CustomerId)))
                         .ForMember(d => d.Username, opt => opt.MapFrom(f => f.Email))
                         .ForMember(d => d.Email, opt => opt.MapFrom(f => f.Email))
-                        .ForMember(d => d.Password, opt => opt.MapFrom(f => string.Empty));
+                        .ForMember(d => d.Password, opt => opt.MapFrom(f => f.Password));
 
                     //!!!!!! CustomerProfile 
                     cfg.CreateMap<CustomerProfile, CustomerCreateOrUpdate>()

@@ -10,6 +10,8 @@ namespace Rina90Diet.Service
 {
     public interface ICustomerService
     {
+        Task<CustomerProfile> GetCustomerByEmailAsync(string email);
+
         Task<IList<CustomerProfile>> GetAllCustomersAsync(int skip, int take);
 
         Task<CustomerProfile> GetCustomerByIdAsync(string customerId);
@@ -17,6 +19,8 @@ namespace Rina90Diet.Service
         Task<CustomerProfile> CreateCustomerAsync(CustomerCreateOrUpdate customer);
 
         Task<CustomerProfile> UpdateCustomerAsync(CustomerCreateOrUpdate customer);
+
+        Task<bool> CheckPassword(string email, string password);
 
         Task<User> GetUserById(int userId);
 

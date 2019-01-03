@@ -94,10 +94,30 @@ namespace Rina90Diet.Service
             return u1;
         }
 
+        public async Task<bool> CheckPassword(string email, string password)
+        {
+            var u = await _userRepository.DbSet.FirstOrDefaultAsync(x1 => x1.Email.ToLowerInvariant() == email.ToLowerInvariant()
+                    && x1.Password.ToLowerInvariant() == password.ToLowerInvariant());
+
+            return u != null;
+        }
+
         public async Task<CustomerProfile> CreateCustomerAsync(CustomerCreateOrUpdate customer)
         {
-            var u = await CreateUser(customer);
-            return _mapper.Map<User, CustomerProfile>(u);
+            if (customer != null)
+            {
+                var custExists = await _userRepository.DbSet.FirstOrDefaultAsync(x1 => x1.Email.ToLowerInvariant() == customer.Email.ToLowerInvariant());
+
+                if (custExists != null)
+                {
+                    throw new Exception("Existing customer");
+                }
+
+                var u = await CreateUser(customer);
+                return _mapper.Map<User, CustomerProfile>(u);
+            }
+
+            return null;
         }
 
         public async Task<IList<CustomerProfile>> GetAllCustomersAsync(int skip, int take)
@@ -111,6 +131,22 @@ namespace Rina90Diet.Service
                 .ToListAsync();
 
             return _mapper.Map<IEnumerable<User>, IEnumerable<CustomerProfile>>(us).ToList();
+        }
+
+        public async Task<CustomerProfile> GetCustomerByEmailAsync(string email)
+        {
+            IList<User> us = null;
+
+            await Task.Factory.StartNew(() =>
+            {
+                us = _userRepository.DbSet
+                    .Include("People")
+                    //.Include("People.Phone")
+                    .Where(x => x.Email.ToLowerInvariant() == email.ToLowerInvariant())
+                .ToList();
+            });
+
+            return _mapper.Map<User, CustomerProfile>(us.First());
         }
 
         public async Task<CustomerProfile> GetCustomerByIdAsync(string customerId)

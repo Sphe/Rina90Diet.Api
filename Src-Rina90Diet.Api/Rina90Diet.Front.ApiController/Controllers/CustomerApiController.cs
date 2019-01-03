@@ -110,6 +110,22 @@ namespace Rina90Diet.ApiController.Controllers
             return new ObjectResult(cust);
         }
 
+        [HttpGet]
+        [Route("/v1/customer/byEmail")]
+        [Produces("application/json", "text/json")]
+        [ProducesResponseType(typeof(CustomerProfile), 200)]
+        //[Authorize(Roles = "customer,customer:byid")]
+        public virtual async Task<IActionResult> CustomerByEmailGet(
+            [SwaggerParameter(Required = true)][FromQuery]string email)
+        {
+            //User.CheckIfValidCustomerId(id, true);
+
+            _dbContext.RefreshFullDomain();
+            var cust = await _customerService.GetCustomerByEmailAsync(email);
+            
+            return new ObjectResult(cust);
+        }
+
         /// <summary>
         /// List customer
         /// </summary>
@@ -156,6 +172,21 @@ namespace Rina90Diet.ApiController.Controllers
 
             _dbContext.RefreshFullDomain();
             var cust = await _customerService.CreateCustomerAsync(customer);
+            return new ObjectResult(cust);
+        }
+
+        [HttpGet]
+        [Route("/v1/customer/checkPassword")]
+        [Consumes("application/json", "text/json")]
+        [Produces("application/json", "text/json")]
+        [ProducesResponseType(typeof(bool), 200)]
+        //[Authorize(Roles = "customer:create")]
+        public virtual async Task<IActionResult> CheckPasswordGet(
+            [SwaggerParameter("The number of occurrences not counted from start.", Required = true)][FromQuery]string email,
+            [SwaggerParameter("The number of occurences to return.", Required = true)][FromQuery]string password)
+        {
+            _dbContext.RefreshFullDomain();
+            var cust = await _customerService.CheckPassword(email, password);
             return new ObjectResult(cust);
         }
 
