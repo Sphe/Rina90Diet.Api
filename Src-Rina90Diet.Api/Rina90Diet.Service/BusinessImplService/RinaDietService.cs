@@ -59,8 +59,8 @@ namespace Rina90Diet.Service.BusinessImplService
             var rinaSession = CreateDiet(u1.StartDate, u1.EndDate, u1.IsWaterDay);
 
             var lstWeightEntries = await _weightEntryService.GetListByPredicateAsync((a) => a.Customerprofileid.ToString() == u1.CustomerProfileId);
-
-            u1.EntryHistoryList = lstWeightEntries;
+            var grp1 = lstWeightEntries.GroupBy(x => x.TimeStamp.ToString("dd-MM-yyyy")).ToList();
+            u1.EntryHistoryList = grp1.Select(x1 => x1.Last()).OrderBy(x1 => x1.TimeStamp).ToList();
             u1.AssociatedSession = rinaSession;
 
             return u1;
