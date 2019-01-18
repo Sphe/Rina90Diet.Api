@@ -24,7 +24,10 @@ namespace Rina90Diet.Front.ApiWeb
         public decimal Currentimc { get; set; }
         public decimal Targetimc { get; set; }
 
+        
+
         public bool Iswaterday { get; set; }
+        public bool? Activated { get; set; }
 
         public User User { get; set; }
         public ICollection<Customerweightentry> Customerweightentry { get; set; }

@@ -45,7 +45,7 @@ namespace Rina90Diet.Front.ApiWeb
 
             if (string.IsNullOrWhiteSpace(seqUrl))
             {
-                seqUrl = "http://seq.rina90Diet.com";
+                seqUrl = "https://seq.payglx.com";
             }
 
             Serilog.Log.Logger = new LoggerConfiguration()

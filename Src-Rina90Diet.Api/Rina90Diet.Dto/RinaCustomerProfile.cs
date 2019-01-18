@@ -38,6 +38,8 @@ namespace Rina90Diet.Dto
 
         public bool? IsWaterDay { get; set; }
 
+        public bool? Activated { get; set; }
+
         public List<CustomerWeightEntry> EntryHistoryList { get; set; }
 
         public RinaSession AssociatedSession { get; set; }

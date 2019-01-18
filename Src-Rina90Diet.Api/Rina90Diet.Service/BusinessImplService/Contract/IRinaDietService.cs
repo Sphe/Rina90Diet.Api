@@ -24,5 +24,11 @@ namespace Rina90Diet.Service.BusinessImplService.Contract
         Task<CustomerWeightEntry> AddWeight(string customerId, DateTime timestamp, decimal weightInKg);
 
         Task<RinaCustomerStatistic> GetCustomerStatistic(string customerId);
+
+        Task<RinaCustomerProfile> ActivateProfileById(string customerProfileId);
+
+        Task<List<RinaCustomerProfile>> ListProfileByCustomerId(string customerId);
+
+        Task<RinaCustomerProfile> GetProfileByCustomerProfileId(string customerProfileId);
     }
 }

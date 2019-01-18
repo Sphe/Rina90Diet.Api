@@ -8,6 +8,7 @@ using Rina90Diet.Model.FullDomain;
 using Rina90Diet.Service.BusinessImplService.Contract;
 using System.Threading.Tasks;
 using Rina90Diet.Front.ApiWeb;
+using System.Collections.Generic;
 
 namespace Rina90Diet.ApiController.Controllers
 { 
@@ -81,6 +82,45 @@ namespace Rina90Diet.ApiController.Controllers
         {
 
             var rs1 = await _rinaDietService.GetProfileByCustomerId(customerId);
+
+            return new ObjectResult(rs1);
+        }
+
+        [HttpGet]
+        [Route("/v1/rinadiet/getProfileByCustomerProfileId")]
+        [SwaggerOperation("GetProfileByCustomerProfileGet")]
+        [ProducesResponseType(statusCode: 200, type: typeof(RinaCustomerProfile))]
+        public virtual async Task<IActionResult> GetProfileByCustomerProfileGet(
+            [FromQuery]string customerProfileId)
+        {
+
+            var rs1 = await _rinaDietService.GetProfileByCustomerProfileId(customerProfileId);
+
+            return new ObjectResult(rs1);
+        }
+
+        [HttpGet]
+        [Route("/v1/rinadiet/getListProfileByCustomerId")]
+        [SwaggerOperation("GetListProfileByCustomerGet")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<RinaCustomerProfile>))]
+        public virtual async Task<IActionResult> GetListProfileByCustomerGet(
+            [FromQuery]string customerId)
+        {
+
+            var rs1 = await _rinaDietService.ListProfileByCustomerId(customerId);
+
+            return new ObjectResult(rs1);
+        }
+
+        [HttpGet]
+        [Route("/v1/rinadiet/activateProfileById")]
+        [SwaggerOperation("GetActivateProfileGet")]
+        [ProducesResponseType(statusCode: 200, type: typeof(RinaCustomerProfile))]
+        public virtual async Task<IActionResult> GetActivateProfileGet(
+            [FromQuery]string customerProfileId)
+        {
+
+            var rs1 = await _rinaDietService.ActivateProfileById(customerProfileId);
 
             return new ObjectResult(rs1);
         }

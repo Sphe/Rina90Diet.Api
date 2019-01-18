@@ -51,10 +51,10 @@ namespace Rina90Diet.Service.BusinessImplService
             _random = new Random();
         }
 
-        public async Task<RinaCustomerProfile> GetProfileByCustomerId(string customerId)
+        public async Task<RinaCustomerProfile> GetProfileByCustomerProfileId(string customerProfileId)
         {
 
-            var u1 = await _genService.GetSingleByPredicateAsync((a) => a.Userid.ToString() == customerId);
+            var u1 = await _genService.GetSingleByPredicateAsync((a) => a.Customerprofileid.ToString() == customerProfileId);
 
             var rinaSession = CreateDiet(u1.StartDate, u1.EndDate, u1.IsWaterDay);
 
@@ -65,6 +65,70 @@ namespace Rina90Diet.Service.BusinessImplService
 
             return u1;
 
+        }
+
+        public async Task<RinaCustomerProfile> GetProfileByCustomerId(string customerId)
+        {
+
+            var u1List = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == customerId && a.Activated == true);
+            RinaCustomerProfile u1 = null;
+
+            if (u1List != null && u1List.Count > 0)
+            {
+                u1 = u1List.First();
+            }
+            else
+            {
+                u1 = await _genService.GetSingleByPredicateAsync((a) => a.Userid.ToString() == customerId);
+            }
+
+            var rinaSession = CreateDiet(u1.StartDate, u1.EndDate, u1.IsWaterDay);
+
+            var lstWeightEntries = await _weightEntryService.GetListByPredicateAsync((a) => a.Customerprofileid.ToString() == u1.CustomerProfileId);
+            var grp1 = lstWeightEntries.GroupBy(x => x.TimeStamp.ToString("dd-MM-yyyy")).ToList();
+            u1.EntryHistoryList = grp1.Select(x1 => x1.Last()).OrderBy(x1 => x1.TimeStamp).ToList();
+            u1.AssociatedSession = rinaSession;
+
+            return u1;
+
+        }
+
+        public async Task<RinaCustomerProfile> ActivateProfileById(string customerProfileId)
+        {
+            var cp = await _genService.GetSingleByPredicateAsync((a) => a.Customerprofileid.ToString() == customerProfileId);
+
+            var cpListForCustomer = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == cp.CustomerId);
+            
+            var now = DateTime.UtcNow;
+
+            foreach (var cp1 in cpListForCustomer)
+            {
+                cp1.Modifiedon = now;
+                cp1.Activated = false;
+
+                var u1 = await _genService.UpdateAsync(cp1, (a) => a.Customerprofileid.ToString() == cp1.CustomerProfileId);
+            }
+
+            cp.Activated = true;
+            cp.Modifiedon = now;
+
+            var a1 = await _genService.UpdateAsync(cp, (a) => a.Customerprofileid.ToString() == cp.CustomerProfileId);
+
+            var errors = await _unitOfWork.CommitHandledAsync();
+
+            if (!errors)
+            {
+                _logger.LogError($"Can't UpdateProfile !");
+            }
+
+            return a1;
+        }
+
+        public async Task<List<RinaCustomerProfile>> ListProfileByCustomerId(string customerId)
+        {
+            var cpListForCustomer = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == customerId);
+
+            return cpListForCustomer;
         }
 
         public async Task<RinaCustomerStatistic> GetCustomerStatistic(string customerId)
