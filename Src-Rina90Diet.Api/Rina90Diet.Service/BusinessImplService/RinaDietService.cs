@@ -134,7 +134,14 @@ namespace Rina90Diet.Service.BusinessImplService
         public async Task<RinaCustomerStatistic> GetCustomerStatistic(string customerId)
         {
 
-            var u1 = await _genService.GetSingleByPredicateAsync((a) => a.Userid.ToString() == customerId);
+            var u1List = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == customerId && a.Activated == true);
+
+            var u1 = u1List.FirstOrDefault();
+
+            if (u1 == null)
+            {
+                u1 = await _genService.GetSingleByPredicateAsync((a) => a.Userid.ToString() == customerId);
+            }
 
             var rinaSession = CreateDiet(u1.StartDate, u1.EndDate, u1.IsWaterDay);
 
@@ -259,7 +266,7 @@ namespace Rina90Diet.Service.BusinessImplService
                 _logger.LogError($"Can't CreateProfile ! { JsonConvert.SerializeObject(custProfile, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })} ");
             }
             
-            return custProfile;
+            return u1;
         }
 
         private decimal CalculateImc(decimal weightInKg, decimal heightInM)
