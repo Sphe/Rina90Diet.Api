@@ -288,12 +288,19 @@ namespace Rina90Diet.Service.BusinessImplService
 
             if (profile != null)
             {
-                var idxDay =
+                var idxDay = 0;
+                    
+                var cursDay =
                     profile.AssociatedSession.DaysListed
                     .Where(x1 => x1.Date.Day == timestamp.Day
                     && x1.Date.Month == timestamp.Month
-                    && x1.Date.Year == timestamp.Year).First().DayNumber;
+                    && x1.Date.Year == timestamp.Year).FirstOrDefault();
 
+                if (cursDay != null)
+                {
+                    idxDay = cursDay.DayNumber;
+                }
+                    
                 var e1 = new CustomerWeightEntry()
                 {
                     CustomerProfileId = profile.CustomerProfileId,
@@ -318,7 +325,17 @@ namespace Rina90Diet.Service.BusinessImplService
                 var lstWeight = await _weightEntryService.GetListByPredicateAsync(x1 => x1.Customerprofileid.Value.ToString() == profile.CustomerProfileId);
 
                 var profileNew = await GetProfileByCustomerId(customerId);
-                profileNew.CurrentWeight = lstWeight.OrderByDescending(x1 => x1.TimeStamp).First().WeightInKg;
+                var fd1 = lstWeight.OrderByDescending(x1 => x1.TimeStamp).FirstOrDefault();
+
+                if (fd1 != null)
+                {
+                    profileNew.CurrentWeight = fd1.WeightInKg;
+                }
+                else
+                {
+                    profileNew.CurrentWeight = profileNew.InitialWeight;
+                }
+    
                 profileNew.CurrentImc = CalculateImc(profileNew.CurrentWeight, profileNew.HeightInM);
                 profileNew.Modifiedon = DateTime.Now;
 
