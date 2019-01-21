@@ -79,7 +79,15 @@ namespace Rina90Diet.Service.BusinessImplService
             }
             else
             {
-                u1 = await _genService.GetSingleByPredicateAsync((a) => a.Userid.ToString() == customerId);
+                var u1L2 = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == customerId);
+                if (u1L2 != null && u1L2.Count > 0)
+                {
+                    u1 = u1L2.First();
+                }
+                else
+                {
+                    throw new Exception("No profile for this user !");
+                }
             }
 
             var rinaSession = CreateDiet(u1.StartDate, u1.EndDate, u1.IsWaterDay);
