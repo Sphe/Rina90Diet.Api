@@ -18,6 +18,8 @@ using VDS.RDF.Parsing;
 using VDS.RDF.Nodes;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Rina90Diet.ApiController.Controllers
 { 
@@ -81,6 +83,8 @@ namespace Rina90Diet.ApiController.Controllers
         [ProducesResponseType(statusCode: 200, type: typeof(object))]
         public virtual async Task<IActionResult> ExtractReindexGet()
         {
+            var md5 = new MD5CryptoServiceProvider();
+
             var res1 = await _httpClient.GetStringAsync(
                 "https://poolparty.payglx.com/PoolParty/api/projects/1E14681A-00B6-0001-A3C5-185314C017D6/export?format=turtle&exportModules=concepts");
 
@@ -98,8 +102,6 @@ namespace Rina90Diet.ApiController.Controllers
             finString = finString.Replace("http://www.meatprocessingforum.com,", "http://www.meatprocessingforum.com");
             finString = finString.Replace("http://www.pfaf.org).", "http://www.pfaf.org");
             finString = finString.Replace("http://plants.usda.gov).", "http://plants.usda.gov");
-
-
 
 
             ttlparser.Load(g, new StringReader(finString));
@@ -137,19 +139,30 @@ namespace Rina90Diet.ApiController.Controllers
 
                 dicoCurs.Add("identifier", subject1.ToString());
 
+                dicoCurs.Add("identifiersha1", GetHash(md5, subject1.ToString()));
+
                 listDicoFinal.Add(dicoCurs);
 
                 if (listDicoFinal.Count > 10)
                 {
                     var ar1 = listDicoFinal.ToArray();
 
-                    _foodIndexService.IndexJsonObject(ar1, "foodthesaurusindex_try", "fooditem");
+                    _foodIndexService.IndexJsonObject(ar1, "foodthesaurusindex_hash", "fooditem");
 
                     listDicoFinal.Clear();
                 }
             }
 
+            md5.Dispose();
+
             return new ObjectResult(true);
+        }
+
+        public static string GetHash(MD5CryptoServiceProvider provider, string input)
+        {
+
+            return string.Join("", (provider.ComputeHash(Encoding.UTF8.GetBytes(input))).Select(x => x.ToString("x2")).ToArray());
+
         }
 
     }

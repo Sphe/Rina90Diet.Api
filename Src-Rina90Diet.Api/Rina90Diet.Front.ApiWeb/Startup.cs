@@ -102,7 +102,7 @@ namespace Rina90Diet.Front.ApiWeb
 
             services.AddSingleton<IElasticClient>((a1) =>
             {
-                var pool = new SingleNodeConnectionPool(new Uri("http://188.165.252.131:9200"));
+                var pool = new SingleNodeConnectionPool(new Uri("http://10.100.218.250:9200"));
                 var connectionSettings11 =
                     new ConnectionSettings(pool, sourceSerializer: JsonNetSerializer.Default);
                 return new ElasticClient(connectionSettings11);

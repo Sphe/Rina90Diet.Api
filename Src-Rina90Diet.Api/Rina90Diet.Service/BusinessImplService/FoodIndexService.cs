@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -107,7 +108,7 @@ namespace Rina90Diet.Service.BusinessImplService
                     });
                 }
 
-                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_try"), Types.Parse("fooditem"))
+                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_hash"), Types.Parse("fooditem"))
                 {
 
                     Size = size,
@@ -128,7 +129,7 @@ namespace Rina90Diet.Service.BusinessImplService
             }
             else
             {
-                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_try"), Types.Parse("fooditem"))
+                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_hash"), Types.Parse("fooditem"))
                 {
 
                     Size = size,
@@ -188,6 +189,8 @@ namespace Rina90Diet.Service.BusinessImplService
                     Results = new List<SearchResultDto>()
                 };
             }
+
+            var lstRelated = new List<string>();
 
             foreach (var h1 in res1.Hits)
             {
@@ -251,11 +254,151 @@ namespace Rina90Diet.Service.BusinessImplService
 
                 }
 
+                if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#related"))
+                {
+
+                    var ja1 = jObj1["http://www.w3.org/2004/02/skos/core#related"] as JArray;
+
+                    if (ja1 != null)
+                    {
+                        lstRelated.AddRange((ja1).ToObject<List<string>>());
+                    }
+
+                    var js1 = jObj1["http://www.w3.org/2004/02/skos/core#related"] as string;
+
+                    if (js1 != null)
+                    {
+                        lstRelated.AddRange(new List<string>() { js1.ToString() });
+                    }
+
+                }
+
                 resFinal.Results.Add(jU1);
 
             }
 
+            //Enrich with related if num < requested size
+
+            var distinctRelated = lstRelated.Distinct();
+
+            if (resFinal.Results.Count < size && distinctRelated != null && distinctRelated.Count() > 0)
+            {
+                var lstQ1 = new List<QueryContainer>();
+
+                foreach (var l1 in distinctRelated)
+                {
+                    lstQ1.Add(new TermQuery()
+                    {
+                        Field = "identifiersha1",
+                        Value = GetHash(l1)
+                    });
+                }
+
+                var resEnrich = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_hash"), Types.Parse("fooditem"))
+                {
+
+                    Size = size,
+                    From = skip,
+
+                    Query = new BoolQuery()
+                    {
+
+                        Should = lstQ1,
+                        Boost = 1.0,
+                        MinimumShouldMatch = 1
+
+                    }
+
+
+                });
+
+                if (resEnrich == null || resEnrich.Hits == null || resEnrich.Hits.Count < 1)
+                {
+                }
+                else
+                {
+                    foreach (var h1 in resEnrich.Hits)
+                    {
+                        var jObj1 = h1.Source;
+
+                        var jU1 = new SearchResultDto();
+
+                        if (jObj1.ContainsKey("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
+                        {
+                            jU1.Type = jObj1["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].ToString();
+                        }
+
+                        if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#definition"))
+                        {
+                            jU1.Definition = jObj1["http://www.w3.org/2004/02/skos/core#definition"].ToString();
+                        }
+
+                        if (jObj1.ContainsKey("identifier"))
+                        {
+                            jU1.Identifier = jObj1["identifier"].ToString();
+                        }
+
+                        if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#prefLabel"))
+                        {
+                            jU1.PrefLabel = jObj1["http://www.w3.org/2004/02/skos/core#prefLabel"].ToString();
+                        }
+
+                        if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#altLabel"))
+                        {
+                            var ja1 = jObj1["http://www.w3.org/2004/02/skos/core#altLabel"] as JArray;
+
+                            if (ja1 != null)
+                            {
+                                jU1.AltLabels = (ja1).ToObject<List<string>>();
+                            }
+
+                            var js1 = jObj1["http://www.w3.org/2004/02/skos/core#altLabel"] as string;
+
+                            if (js1 != null)
+                            {
+                                jU1.AltLabels = new List<string>() { js1.ToString() };
+                            }
+                        }
+
+                        if (jObj1.ContainsKey("http://purl.org/dc/terms/source"))
+                        {
+
+                            var ja1 = jObj1["http://purl.org/dc/terms/source"] as JArray;
+
+                            if (ja1 != null)
+                            {
+                                jU1.LinkedDataUris = (ja1).ToObject<List<string>>();
+                            }
+
+                            var js1 = jObj1["http://purl.org/dc/terms/source"] as string;
+
+                            if (js1 != null)
+                            {
+                                jU1.LinkedDataUris = new List<string>() { js1.ToString() };
+                            }
+
+                        }
+
+                        resFinal.Results.Add(jU1);
+                        resFinal.Count = resFinal.Count + 1;
+                        resFinal.TotalCount = resFinal.TotalCount + 1;
+
+                    }
+                }
+
+            }
+
             return resFinal;
+
+        }
+
+        public static string GetHash(string input)
+        {
+
+            using (var t1 = new MD5CryptoServiceProvider())
+            {
+                return string.Join("", (t1.ComputeHash(Encoding.UTF8.GetBytes(input))).Select(x => x.ToString("x2")).ToArray());
+            }
 
         }
 
