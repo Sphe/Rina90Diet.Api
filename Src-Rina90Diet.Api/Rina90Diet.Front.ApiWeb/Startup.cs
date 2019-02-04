@@ -24,6 +24,9 @@ using System;
 using Rina90Diet.Model.FullDomain;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.OpenApi.Models;
+using Nest;
+using Elasticsearch.Net;
+using Nest.JsonNetSerializer;
 
 namespace Rina90Diet.Front.ApiWeb
 {
@@ -93,9 +96,17 @@ namespace Rina90Diet.Front.ApiWeb
 
             services.AddTransient(typeof(IGenericCrudService<,>), typeof(GenericCrudService<,>));
 
-            services.AddSingleton(typeof(IRina90DietBusinessService), typeof(Rina90DietBusinessService));
-
             services.AddTransient(typeof(IRinaDietService), typeof(RinaDietService));
+
+            services.AddTransient(typeof(IFoodIndexService), typeof(FoodIndexService));
+
+            services.AddSingleton<IElasticClient>((a1) =>
+            {
+                var pool = new SingleNodeConnectionPool(new Uri("http://188.165.252.131:9200"));
+                var connectionSettings11 =
+                    new ConnectionSettings(pool, sourceSerializer: JsonNetSerializer.Default);
+                return new ElasticClient(connectionSettings11);
+            });
 
             services.AddMvc();
 
