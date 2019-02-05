@@ -384,6 +384,12 @@ namespace Rina90Diet.Service.BusinessImplService
                         resFinal.TotalCount = resFinal.TotalCount + 1;
 
                     }
+
+                    if (resFinal.Count > size)
+                    {
+                        resFinal.Results = resFinal.Results.Take(size).ToList();
+                        resFinal.Count = resFinal.Results.Count;
+                    }
                 }
 
             }
