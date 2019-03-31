@@ -25,11 +25,12 @@ namespace Rina90Diet.ApiController.Controllers
 
         public RinaDietApiController
 
-            (ICustomerService customerService,
-            IDbContextService dbContext,
-            IGenericCrudService<UserGenericAttributeDto, Usergenericattributemap> userAttributeService,
-            IAttributeService attributeService,
-            IRinaDietService rinaDietService
+            (
+                ICustomerService customerService,
+                IDbContextService dbContext,
+                IGenericCrudService<UserGenericAttributeDto, Usergenericattributemap> userAttributeService,
+                IAttributeService attributeService,
+                IRinaDietService rinaDietService
             )
 
         {

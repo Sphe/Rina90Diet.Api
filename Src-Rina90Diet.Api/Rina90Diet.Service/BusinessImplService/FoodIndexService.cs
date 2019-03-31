@@ -13,9 +13,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Rina90Diet.Service.BusinessImplService
 {
@@ -42,6 +44,55 @@ namespace Rina90Diet.Service.BusinessImplService
             bdesc.IndexMany(obj1, (f, g) => f.Index(indexName).Type(type));
 
             var x = _elasticClient.Bulk(bdesc);
+
+        }
+
+        public async Task<SearchResultDto> GetByUri(string uri)
+        {
+
+            if (string.IsNullOrWhiteSpace(uri))
+            {
+                throw new Exception("No Uri Provided");
+            }
+
+            var res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("dbpediafoodindex_2019_02_hash"), Types.Parse("fooditem"))
+            {
+
+                Size = 1,
+                From = 0,
+
+                Query = new BoolQuery()
+                {
+
+                    Should = new List<QueryContainer>()
+                    {
+
+                        new TermQuery()
+                        {
+                            Field = "identifiersha1",
+                            Value = GetHash(uri)
+                        }
+
+                    },
+
+                    Boost = 1.0,
+                    MinimumShouldMatch = 1
+
+                }
+
+            });
+
+            if (res1 != null && res1.Hits != null && res1.Hits.Count > 0)
+            {
+
+                var jObj1 = res1.Hits.First().Source;
+
+                var jU1 = MakeObj(jObj1);
+
+                return jU1;
+            }
+
+            return null;
 
         }
 
@@ -78,25 +129,64 @@ namespace Rina90Diet.Service.BusinessImplService
 
                         Should = new List<QueryContainer>()
                                 {
-
                                     new TermQuery()
                                     {
-                                        Field = "http://www.w3.org/2004/02/skos/core#prefLabel",
+                                        Field = "label",
                                         Value = r1
                                     },
                                     new TermQuery()
                                     {
-                                        Field = "http://www.w3.org/2004/02/skos/core#altLabel",
+                                        Field = "name",
+                                        Value = r1
+                                    },
+                                    new TermQuery()
+                                    {
+                                        Field = "name1",
+                                        Value = r1
+                                    },
+                                    new TermQuery()
+                                    {
+                                        Field = "abstract",
+                                        Value = r1
+                                    },
+                                    new TermQuery()
+                                    {
+                                        Field = "comment",
+                                        Value = r1
+                                    },
+                                    new TermQuery()
+                                    {
+                                        Field = "altLabels",
                                         Value = r1
                                     },
                                     new WildcardQuery()
                                     {
-                                        Field = "http://www.w3.org/2004/02/skos/core#definition",
+                                        Field = "name",
                                         Value = string.Concat("*", r1, "*")
                                     },
                                     new WildcardQuery()
                                     {
-                                        Field = "http://www.w3.org/2004/02/skos/core#altLabel",
+                                        Field = "name1",
+                                        Value = string.Concat("*", r1, "*")
+                                    },
+                                    new WildcardQuery()
+                                    {
+                                        Field = "abstract",
+                                        Value = string.Concat("*", r1, "*")
+                                    },
+                                    new WildcardQuery()
+                                    {
+                                        Field = "comment",
+                                        Value = string.Concat("*", r1, "*")
+                                    },
+                                    new WildcardQuery()
+                                    {
+                                        Field = "altLabels",
+                                        Value = string.Concat("*", r1, "*")
+                                    },
+                                    new WildcardQuery()
+                                    {
+                                        Field = "label",
                                         Value = string.Concat("*", r1, "*")
                                     }
 
@@ -108,28 +198,26 @@ namespace Rina90Diet.Service.BusinessImplService
                     });
                 }
 
-                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_hash"), Types.Parse("fooditem"))
+                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("dbpediafoodindex_2019_02_hash"), Types.Parse("fooditem"))
                 {
 
                     Size = size,
                     From = skip,
 
                     Query = new BoolQuery()
-                            {
+                    {
                         
-                                Should = mustArr1,
+                        Should = mustArr1,
 
-                                Boost = 1.0,
-                                MinimumShouldMatch = 1
+                        Boost = 1.0,
+                        MinimumShouldMatch = 1
 
-                            }
-
-
+                    }
                 });
             }
             else
             {
-                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_hash"), Types.Parse("fooditem"))
+                res1 = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("dbpediafoodindex_2019_02_hash"), Types.Parse("fooditem"))
                 {
 
                     Size = size,
@@ -143,22 +231,62 @@ namespace Rina90Diet.Service.BusinessImplService
 
                             new TermQuery()
                             {
-                                Field = "http://www.w3.org/2004/02/skos/core#prefLabel",
+                                Field = "label",
                                 Value = xyz
                             },
                             new TermQuery()
                             {
-                                Field = "http://www.w3.org/2004/02/skos/core#altLabel",
+                                Field = "name",
+                                Value = xyz
+                            },
+                            new TermQuery()
+                            {
+                                Field = "name1",
+                                Value = xyz
+                            },
+                            new TermQuery()
+                            {
+                                Field = "abstract",
+                                Value = xyz
+                            },
+                            new TermQuery()
+                            {
+                                Field = "comment",
+                                Value = xyz
+                            },
+                            new TermQuery()
+                            {
+                                Field = "altLabels",
                                 Value = xyz
                             },
                             new WildcardQuery()
                             {
-                                Field = "http://www.w3.org/2004/02/skos/core#definition",
+                                Field = "label",
                                 Value = string.Concat("*", xyz, "*")
                             },
                             new WildcardQuery()
                             {
-                                Field = "http://www.w3.org/2004/02/skos/core#altLabel",
+                                Field = "name",
+                                Value = string.Concat("*", xyz, "*")
+                            },
+                            new WildcardQuery()
+                            {
+                                Field = "name1",
+                                Value = string.Concat("*", xyz, "*")
+                            },
+                            new WildcardQuery()
+                            {
+                                Field = "abstract",
+                                Value = string.Concat("*", xyz, "*")
+                            },
+                            new WildcardQuery()
+                            {
+                                Field = "comment",
+                                Value = string.Concat("*", xyz, "*")
+                            },
+                            new WildcardQuery()
+                            {
+                                Field = "altLabels",
                                 Value = string.Concat("*", xyz, "*")
                             }
 
@@ -196,82 +324,7 @@ namespace Rina90Diet.Service.BusinessImplService
             {
                 var jObj1 = h1.Source;
 
-                var jU1 = new SearchResultDto();
-
-                if (jObj1.ContainsKey("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
-                {
-                    jU1.Type = jObj1["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].ToString();
-                }
-
-                if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#definition"))
-                {
-                    jU1.Definition = jObj1["http://www.w3.org/2004/02/skos/core#definition"].ToString();
-                }
-
-                if (jObj1.ContainsKey("identifier"))
-                {
-                    jU1.Identifier = jObj1["identifier"].ToString();
-                }
-
-                if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#prefLabel"))
-                {
-                    jU1.PrefLabel = jObj1["http://www.w3.org/2004/02/skos/core#prefLabel"].ToString();
-                }
-
-                if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#altLabel"))
-                {
-                    var ja1 = jObj1["http://www.w3.org/2004/02/skos/core#altLabel"] as JArray;
-
-                    if (ja1 != null)
-                    {
-                        jU1.AltLabels = (ja1).ToObject<List<string>>();
-                    }
-                    
-                    var js1 = jObj1["http://www.w3.org/2004/02/skos/core#altLabel"] as string;
-
-                    if (js1 != null)
-                    {
-                        jU1.AltLabels = new List<string>() { js1.ToString() };
-                    }
-                }
-
-                if (jObj1.ContainsKey("http://purl.org/dc/terms/source"))
-                {
-
-                    var ja1 = jObj1["http://purl.org/dc/terms/source"] as JArray;
-
-                    if (ja1 != null)
-                    {
-                        jU1.LinkedDataUris = (ja1).ToObject<List<string>>();
-                    }
-
-                    var js1 = jObj1["http://purl.org/dc/terms/source"] as string;
-
-                    if (js1 != null)
-                    {
-                        jU1.LinkedDataUris = new List<string>() { js1.ToString() };
-                    }
-
-                }
-
-                if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#related"))
-                {
-
-                    var ja1 = jObj1["http://www.w3.org/2004/02/skos/core#related"] as JArray;
-
-                    if (ja1 != null)
-                    {
-                        lstRelated.AddRange((ja1).ToObject<List<string>>());
-                    }
-
-                    var js1 = jObj1["http://www.w3.org/2004/02/skos/core#related"] as string;
-
-                    if (js1 != null)
-                    {
-                        lstRelated.AddRange(new List<string>() { js1.ToString() });
-                    }
-
-                }
+                var jU1 = MakeObj(jObj1);
 
                 resFinal.Results.Add(jU1);
 
@@ -294,7 +347,7 @@ namespace Rina90Diet.Service.BusinessImplService
                     });
                 }
 
-                var resEnrich = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("foodthesaurusindex_hash"), Types.Parse("fooditem"))
+                var resEnrich = await _elasticClient.SearchAsync<Dictionary<string, object>>(new SearchRequest<Dictionary<string, object>>(Indices.Parse("dbpediafoodindex_2019_02_hash"), Types.Parse("fooditem"))
                 {
 
                     Size = size,
@@ -321,63 +374,7 @@ namespace Rina90Diet.Service.BusinessImplService
                     {
                         var jObj1 = h1.Source;
 
-                        var jU1 = new SearchResultDto();
-
-                        if (jObj1.ContainsKey("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))
-                        {
-                            jU1.Type = jObj1["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"].ToString();
-                        }
-
-                        if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#definition"))
-                        {
-                            jU1.Definition = jObj1["http://www.w3.org/2004/02/skos/core#definition"].ToString();
-                        }
-
-                        if (jObj1.ContainsKey("identifier"))
-                        {
-                            jU1.Identifier = jObj1["identifier"].ToString();
-                        }
-
-                        if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#prefLabel"))
-                        {
-                            jU1.PrefLabel = jObj1["http://www.w3.org/2004/02/skos/core#prefLabel"].ToString();
-                        }
-
-                        if (jObj1.ContainsKey("http://www.w3.org/2004/02/skos/core#altLabel"))
-                        {
-                            var ja1 = jObj1["http://www.w3.org/2004/02/skos/core#altLabel"] as JArray;
-
-                            if (ja1 != null)
-                            {
-                                jU1.AltLabels = (ja1).ToObject<List<string>>();
-                            }
-
-                            var js1 = jObj1["http://www.w3.org/2004/02/skos/core#altLabel"] as string;
-
-                            if (js1 != null)
-                            {
-                                jU1.AltLabels = new List<string>() { js1.ToString() };
-                            }
-                        }
-
-                        if (jObj1.ContainsKey("http://purl.org/dc/terms/source"))
-                        {
-
-                            var ja1 = jObj1["http://purl.org/dc/terms/source"] as JArray;
-
-                            if (ja1 != null)
-                            {
-                                jU1.LinkedDataUris = (ja1).ToObject<List<string>>();
-                            }
-
-                            var js1 = jObj1["http://purl.org/dc/terms/source"] as string;
-
-                            if (js1 != null)
-                            {
-                                jU1.LinkedDataUris = new List<string>() { js1.ToString() };
-                            }
-
-                        }
+                        var jU1 = MakeObj(jObj1);
 
                         resFinal.Results.Add(jU1);
                         resFinal.Count = resFinal.Count + 1;
@@ -396,6 +393,175 @@ namespace Rina90Diet.Service.BusinessImplService
 
             return resFinal;
 
+        }
+
+        public SearchResultDto MakeObj(Dictionary<string, object> jObj1)
+        {
+            var jU1 = new SearchResultDto();
+
+            if (jObj1.ContainsKey("abstract"))
+            {
+                jU1.Definition = jObj1["abstract"].ToString();
+            }
+
+            if (jObj1.ContainsKey("wasDerivedFrom"))
+            {
+                jU1.Source = jObj1["wasDerivedFrom"].ToString();
+            }
+
+            if (jObj1.ContainsKey("thumbnail"))
+            {
+                jU1.ImageUrl = jObj1["thumbnail"].ToString();
+            }
+
+            if (jObj1.ContainsKey("identifier"))
+            {
+                jU1.Identifier = jObj1["identifier"].ToString();
+            }
+
+            if (jObj1.ContainsKey("label"))
+            {
+                jU1.PrefLabel = jObj1["label"].ToString();
+            }
+
+            if (jObj1.ContainsKey("altLabels"))
+            {
+                var ja1 = jObj1["altLabels"] as JArray;
+
+                if (ja1 != null)
+                {
+                    jU1.AltLabels = (ja1).ToObject<List<string>>().Select(x1 => WebUtility.UrlDecode(x1)).ToList();
+                }
+
+                var js1 = jObj1["altLabels"] as string;
+
+                if (js1 != null)
+                {
+                    jU1.AltLabels = (new List<string>() { js1.ToString() }).Select(x1 => WebUtility.UrlDecode(x1)).ToList();
+                }
+            }
+
+            if (jObj1.ContainsKey("protein"))
+            {
+                jU1.Protein = decimal.Parse(jObj1["protein"].ToString());
+            }
+
+            if (jObj1.ContainsKey("niacinMg"))
+            {
+                jU1.NiacinMg = decimal.Parse(jObj1["niacinMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("vitcMg"))
+            {
+                jU1.VitcMg = decimal.Parse(jObj1["vitcMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("fat"))
+            {
+                jU1.Fat = decimal.Parse(jObj1["fat"].ToString());
+            }
+
+            if (jObj1.ContainsKey("kj"))
+            {
+                jU1.Kj = decimal.Parse(jObj1["kj"].ToString());
+            }
+
+            if (jObj1.ContainsKey("ncbi"))
+            {
+                jU1.Ncbi = decimal.Parse(jObj1["ncbi"].ToString());
+            }
+
+            if (jObj1.ContainsKey("vitb6Mg"))
+            {
+                jU1.Vitb6Mg = decimal.Parse(jObj1["vitb6Mg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("sourceUsda"))
+            {
+                jU1.SourceUsda = decimal.Parse(jObj1["sourceUsda"].ToString());
+            }
+
+            if (jObj1.ContainsKey("fiber"))
+            {
+                jU1.Fiber = decimal.Parse(jObj1["fiber"].ToString());
+            }
+
+            if (jObj1.ContainsKey("eol"))
+            {
+                jU1.Eol = decimal.Parse(jObj1["eol"].ToString());
+            }
+
+            if (jObj1.ContainsKey("phosphorusMg"))
+            {
+                jU1.PhosphorusMg = decimal.Parse(jObj1["phosphorusMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("betacaroteneUg"))
+            {
+                jU1.BetacaroteneUg = decimal.Parse(jObj1["betacaroteneUg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("manganeseMg"))
+            {
+                jU1.ManganeseMg = decimal.Parse(jObj1["manganeseMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("luteinUg"))
+            {
+                jU1.LuteinUg = decimal.Parse(jObj1["luteinUg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("carbs"))
+            {
+                jU1.Carbs = decimal.Parse(jObj1["carbs"].ToString());
+            }
+
+            if (jObj1.ContainsKey("viteMg"))
+            {
+                jU1.ViteMg = decimal.Parse(jObj1["viteMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("thiaminMg"))
+            {
+                jU1.ThiaminMg = decimal.Parse(jObj1["thiaminMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("vitaUg"))
+            {
+                jU1.VitaUg = decimal.Parse(jObj1["vitaUg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("potassiumMg"))
+            {
+                jU1.PotassiumMg = decimal.Parse(jObj1["potassiumMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("water"))
+            {
+                jU1.Water = decimal.Parse(jObj1["water"].ToString());
+            }
+
+            if (jObj1.ContainsKey("magnesiumMg"))
+            {
+                jU1.MagnesiumMg = decimal.Parse(jObj1["magnesiumMg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("vitkUg"))
+            {
+                jU1.VitkUg = decimal.Parse(jObj1["vitkUg"].ToString());
+            }
+
+            if (jObj1.ContainsKey("opt1v"))
+            {
+                jU1.Opt1v = decimal.Parse(jObj1["opt1v"].ToString());
+            }
+
+            if (jObj1.ContainsKey("sugars"))
+            {
+                jU1.Sugars = decimal.Parse(jObj1["sugars"].ToString());
+            }
+
+            return jU1;
         }
 
         public static string GetHash(string input)

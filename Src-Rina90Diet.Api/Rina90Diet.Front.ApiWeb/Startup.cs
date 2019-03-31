@@ -87,7 +87,6 @@ namespace Rina90Diet.Front.ApiWeb
 
             services.AddTransient(typeof(ICustomerService), typeof(CustomerService));
 
-
             services.AddTransient(typeof(IRina90DietBulkOperator), typeof(Rina90DietBulkOperator));
 
             services.AddTransient(typeof(IDbContextService), typeof(DbContextService));
@@ -100,9 +99,13 @@ namespace Rina90Diet.Front.ApiWeb
 
             services.AddTransient(typeof(IFoodIndexService), typeof(FoodIndexService));
 
+            services.AddTransient(typeof(ITripleStoreCursorBusiness), typeof(TripleStoreCursorBusiness));
+
+            services.AddTransient(typeof(IFoodListService), typeof(FoodListService));
+
             services.AddSingleton<IElasticClient>((a1) =>
             {
-                var pool = new SingleNodeConnectionPool(new Uri("http://10.100.218.250:9200"));
+                var pool = new SingleNodeConnectionPool(new Uri("http://94.23.42.215:9200"));
                 var connectionSettings11 =
                     new ConnectionSettings(pool, sourceSerializer: JsonNetSerializer.Default);
                 return new ElasticClient(connectionSettings11);

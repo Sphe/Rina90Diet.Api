@@ -265,7 +265,7 @@ namespace Rina90Diet.Service.BusinessImplService
             
             var now = DateTime.UtcNow;
             
-            var u1 = await _genService.CreateAsync(custProfile, (a) => a.Customerprofileid.ToString() == custProfile.CustomerId);
+            var u1 = await _genService.CreateAsync(custProfile, (a) => a.Customerprofileid.ToString() == custProfile.CustomerProfileId);
 
             var errors = await _unitOfWork.CommitHandledAsync();
 
@@ -388,113 +388,177 @@ namespace Rina90Diet.Service.BusinessImplService
 
             var cursor1 = startDateCurrent;
 
-            Enumerable.Range(0, 90).ToList().ForEach((a1) =>
-             {
-
-                 if (a1 != 0)
-                 {
-                     cursor1 = cursor1.AddDays(1);
-                 }
-
-                 var typ1 = RinaDayTypeEnum.Protein;
-
-                 if (a1 % 4 == 0)
-                 {
-                     typ1 = RinaDayTypeEnum.Protein;
-                 }
-
-                 if (a1 % 4 == 1)
-                 {
-                     typ1 = RinaDayTypeEnum.Starch;
-                 }
-
-                 if (a1 % 4 == 2)
-                 {
-                     typ1 = RinaDayTypeEnum.Carbohydrates;
-                 }
-
-                 if (a1 % 4 == 3)
-                 {
-                     typ1 = RinaDayTypeEnum.Vitamins;
-                 }
-
-                 listRina1.Add(new RinaDay()
-                 {
-
-                     DayNumber = a1 + 1,
-                     Date = cursor1,
-                     Type = typ1,
-                     DateString = cursor1.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture),
-                     TypeString = typ1.ToString()
-
-                 });
-
-             });
-
             if (waterDay.HasValue && waterDay.Value)
             {
-                var orArray = listRina1.ToArray();
+                var firstCursorWaterDay = 28;
+                var secondCursorWaterDay = 57;
+                var thirdCursorWaterDay = 86;
 
-                var idx1 = _random.Next(10, 25);
+                var cursorProteinAfterFirstWaterDay = firstCursorWaterDay + 1;
+                var cursorProteinAfterSecondWaterDay = secondCursorWaterDay + 1;
+                var cursorProteinAfterThirdWaterDay = thirdCursorWaterDay + 1;
 
-                listRina1.Insert(idx1, new RinaDay()
+                Enumerable.Range(0, 90).ToList().ForEach((a1) =>
                 {
-                    DayNumber = orArray[idx1 - 1].DayNumber + 1,
-                    Date = orArray[idx1 - 1].Date.AddDays(1),
-                    DateString = orArray[idx1 - 1].Date.AddDays(1).ToString("dd-MM-yyyy", CultureInfo.InvariantCulture),
-                    Type = RinaDayTypeEnum.Water,
-                    TypeString = RinaDayTypeEnum.Water.ToString()
+
+                    if (a1 != 0)
+                    {
+                        cursor1 = cursor1.AddDays(1);
+                    }
+
+                    var typ1 = RinaDayTypeEnum.Water;
+
+                    if (a1 < firstCursorWaterDay)
+                    {
+                        if (a1 % 4 == 0)
+                        {
+                            typ1 = RinaDayTypeEnum.Protein;
+                        }
+
+                        if (a1 % 4 == 1)
+                        {
+                            typ1 = RinaDayTypeEnum.Starch;
+                        }
+
+                        if (a1 % 4 == 2)
+                        {
+                            typ1 = RinaDayTypeEnum.Carbohydrates;
+                        }
+
+                        if (a1 % 4 == 3)
+                        {
+                            typ1 = RinaDayTypeEnum.Vitamins;
+                        }
+                    }
+                    else if (a1 == firstCursorWaterDay || a1 == secondCursorWaterDay || a1 == thirdCursorWaterDay)
+                    {
+                        typ1 = RinaDayTypeEnum.Water;
+                    }
+                    else if (a1 > firstCursorWaterDay && a1 < secondCursorWaterDay)
+                    {
+                        if (a1 % cursorProteinAfterFirstWaterDay % 4 == 0)
+                        {
+                            typ1 = RinaDayTypeEnum.Protein;
+                        }
+
+                        if (a1 % cursorProteinAfterFirstWaterDay % 4 == 1)
+                        {
+                            typ1 = RinaDayTypeEnum.Starch;
+                        }
+
+                        if (a1 % cursorProteinAfterFirstWaterDay % 4 == 2)
+                        {
+                            typ1 = RinaDayTypeEnum.Carbohydrates;
+                        }
+
+                        if (a1 % cursorProteinAfterFirstWaterDay % 4 == 3)
+                        {
+                            typ1 = RinaDayTypeEnum.Vitamins;
+                        }
+                    }
+                    else if (a1 > secondCursorWaterDay && a1 < thirdCursorWaterDay)
+                    {
+                        if (a1 % cursorProteinAfterSecondWaterDay % 4 == 0)
+                        {
+                            typ1 = RinaDayTypeEnum.Protein;
+                        }
+
+                        if (a1 % cursorProteinAfterSecondWaterDay % 4 == 1)
+                        {
+                            typ1 = RinaDayTypeEnum.Starch;
+                        }
+
+                        if (a1 % cursorProteinAfterSecondWaterDay % 4 == 2)
+                        {
+                            typ1 = RinaDayTypeEnum.Carbohydrates;
+                        }
+
+                        if (a1 % cursorProteinAfterSecondWaterDay % 4 == 3)
+                        {
+                            typ1 = RinaDayTypeEnum.Vitamins;
+                        }
+                    }
+                    else
+                    {
+                        if (a1 % cursorProteinAfterThirdWaterDay % 4 == 0)
+                        {
+                            typ1 = RinaDayTypeEnum.Protein;
+                        }
+
+                        if (a1 % cursorProteinAfterThirdWaterDay % 4 == 1)
+                        {
+                            typ1 = RinaDayTypeEnum.Starch;
+                        }
+
+                        if (a1 % cursorProteinAfterThirdWaterDay % 4 == 2)
+                        {
+                            typ1 = RinaDayTypeEnum.Carbohydrates;
+                        }
+
+                        if (a1 % cursorProteinAfterThirdWaterDay % 4 == 3)
+                        {
+                            typ1 = RinaDayTypeEnum.Vitamins;
+                        }
+                    }
+
+                    listRina1.Add(new RinaDay()
+                    {
+
+                        DayNumber = a1 + 1,
+                        Date = cursor1,
+                        Type = typ1,
+                        DateString = cursor1.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        TypeString = typ1.ToString()
+
+                    });
+
                 });
 
-                for (var i1 = idx1 + 1; i1 < 90; i1++)
+            }
+            else
+            {
+                Enumerable.Range(0, 90).ToList().ForEach((a1) =>
                 {
-                    listRina1[i1].DayNumber = i1 + 1;
-                    var dFut1 = listRina1[i1 - 1].Date.AddDays(1);
-                    listRina1[i1].Date = dFut1;
-                    listRina1[i1].DateString = dFut1.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
-                }
 
-                orArray = listRina1.ToArray();
+                    if (a1 != 0)
+                    {
+                        cursor1 = cursor1.AddDays(1);
+                    }
 
-                var idx2 = _random.Next(40, 55);
+                    var typ1 = RinaDayTypeEnum.Protein;
 
-                listRina1.Insert(idx2, new RinaDay()
-                {
-                    DayNumber = orArray[idx2 - 1].DayNumber + 1,
-                    Date = orArray[idx2 - 1].Date,
-                    DateString = orArray[idx2 - 1].Date.AddDays(1).ToString("dd-MM-yyyy", CultureInfo.InvariantCulture),
-                    Type = RinaDayTypeEnum.Water,
-                    TypeString = RinaDayTypeEnum.Water.ToString()
+                    if (a1 % 4 == 0)
+                    {
+                        typ1 = RinaDayTypeEnum.Protein;
+                    }
+
+                    if (a1 % 4 == 1)
+                    {
+                        typ1 = RinaDayTypeEnum.Starch;
+                    }
+
+                    if (a1 % 4 == 2)
+                    {
+                        typ1 = RinaDayTypeEnum.Carbohydrates;
+                    }
+
+                    if (a1 % 4 == 3)
+                    {
+                        typ1 = RinaDayTypeEnum.Vitamins;
+                    }
+
+                    listRina1.Add(new RinaDay()
+                    {
+
+                        DayNumber = a1 + 1,
+                        Date = cursor1,
+                        Type = typ1,
+                        DateString = cursor1.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture),
+                        TypeString = typ1.ToString()
+
+                    });
+
                 });
-
-                for (var i1 = idx2 + 1; i1 < 90; i1++)
-                {
-                    listRina1[i1].DayNumber = i1 + 1;
-                    var dFut1 = listRina1[i1 - 1].Date.AddDays(1);
-                    listRina1[i1].Date = dFut1;
-                    listRina1[i1].DateString = dFut1.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
-                }
-
-                orArray = listRina1.ToArray();
-
-                var idx3 = _random.Next(70, 85);
-
-                listRina1.Insert(idx3, new RinaDay()
-                {
-                    DayNumber = orArray[idx3 - 1].DayNumber + 1,
-                    Date = orArray[idx3 - 1].Date,
-                    DateString = orArray[idx3 - 1].Date.AddDays(1).ToString("dd-MM-yyyy", CultureInfo.InvariantCulture),
-                    Type = RinaDayTypeEnum.Water,
-                    TypeString = RinaDayTypeEnum.Water.ToString()
-                });
-
-                for (var i1 = idx3 + 1; i1 < 90; i1++)
-                {
-                    listRina1[i1].DayNumber = i1 + 1;
-                    var dFut1 = listRina1[i1 - 1].Date.AddDays(1);
-                    listRina1[i1].Date = dFut1;
-                    listRina1[i1].DateString = dFut1.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
-                }
             }
    
             rSession.DaysListed = listRina1.Take(90).ToList();

@@ -183,13 +183,23 @@ namespace Rina90Diet.Service
                         .ForMember(d => d.Timestamp, opt => opt.MapFrom(f => f.TimeStamp))
                         .ForMember(d => d.Weightinkg, opt => opt.MapFrom(f => f.WeightInKg));
 
-                    cfg.CreateMap<Customerweightentry, CustomerWeightEntry>()
-                        .ForMember(d => d.CustomerProfileId, opt => opt.MapFrom(f => f.Customerprofileid.ToString()))
-                        .ForMember(d => d.CustomerWeightEntryId, opt => opt.MapFrom(f => f.Customerweightentryid.ToString()))
-                        .ForMember(d => d.IndexDay, opt => opt.MapFrom(f => f.Indexday))
-                        .ForMember(d => d.TimeStamp, opt => opt.MapFrom(f => f.Timestamp))
-                        .ForMember(d => d.WeightInKg, opt => opt.MapFrom(f => f.Weightinkg));
+                    cfg.CreateMap<Customerfoodentry, CustomerFoodEntryDto>()
+                        .ForMember(d => d.Customerfoodentryid, opt => opt.MapFrom(f => f.Customerfoodentryid))
+                        .ForMember(d => d.Customerprofileid, opt => opt.MapFrom(f => f.Customerprofileid))
+                        .ForMember(d => d.Mealinterval, opt => opt.MapFrom(f => f.Mealinterval))
+                        .ForMember(d => d.Unit, opt => opt.MapFrom(f => f.Unit))
+                        .ForMember(d => d.Entrydate, opt => opt.MapFrom(f => f.Entrydate))
+                        .ForMember(d => d.Quantity, opt => opt.MapFrom(f => f.Quantity))
+                        .ForMember(d => d.Urilink, opt => opt.MapFrom(f => f.Urilink));
 
+                    cfg.CreateMap<CustomerFoodEntryDto, Customerfoodentry>()
+                        .ForMember(d => d.Customerfoodentryid, opt => opt.MapFrom(f => f.Customerfoodentryid))
+                        .ForMember(d => d.Customerprofileid, opt => opt.MapFrom(f => f.Customerprofileid))
+                        .ForMember(d => d.Mealinterval, opt => opt.MapFrom(f => f.Mealinterval))
+                        .ForMember(d => d.Unit, opt => opt.MapFrom(f => f.Unit))
+                        .ForMember(d => d.Entrydate, opt => opt.MapFrom(f => f.Entrydate))
+                        .ForMember(d => d.Quantity, opt => opt.MapFrom(f => f.Quantity))
+                        .ForMember(d => d.Urilink, opt => opt.MapFrom(f => f.Urilink));
 
 
                 });

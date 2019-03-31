@@ -45,6 +45,19 @@ namespace Rina90Diet.ApiController.Controllers
         }
 
         [HttpGet]
+        [Route("/v1/foodindex/getByUri")]
+        [SwaggerOperation("SearchFoodGetByUri")]
+        [ProducesResponseType(statusCode: 200, type: typeof(object))]
+        public virtual async Task<IActionResult> SearchFoodGetByUri(
+            [FromQuery]string uri)
+        {
+
+            var result1 = await _foodIndexService.GetByUri(uri);
+
+            return new ObjectResult(result1);
+        }
+
+        [HttpGet]
         [Route("/v1/foodindex/search")]
         [SwaggerOperation("SearchFoodGet")]
         [ProducesResponseType(statusCode: 200, type: typeof(object))]

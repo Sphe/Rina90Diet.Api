@@ -22,6 +22,7 @@ namespace Rina90Diet.Front.ApiWeb
         {
         }
 
+        public virtual DbSet<Customerfoodentry> Customerfoodentry { get; set; }
         public virtual DbSet<Abusecommentmap> Abusecommentmap { get; set; }
         public virtual DbSet<Addresstype> Addresstype { get; set; }
         public virtual DbSet<Article> Article { get; set; }
@@ -105,6 +106,57 @@ namespace Rina90Diet.Front.ApiWeb
                     .HasDefaultValueSql("'2018-12-29'::date");
 
                 entity.Property(e => e.Userid).HasColumnName("userid");
+            });
+
+            modelBuilder.Entity<Customerfoodentry>(entity =>
+            {
+                
+                entity.ToTable("customerfoodentry");
+
+                entity.HasIndex(e => e.Customerfoodentryid)
+                    .HasName("idx_foodentry");
+
+                entity.Property(e => e.Customerfoodentryid).HasColumnName("customerfoodentryid");
+
+                entity.Property(e => e.Customerprofileid)
+                    .HasColumnName("customerprofileid");
+
+                entity.Property(e => e.Mealinterval)
+                    .HasColumnName("mealinterval");
+
+                entity.Property(e => e.Unit)
+                    .HasColumnName("unit");
+
+                entity.Property(e => e.Urilink)
+                    .HasColumnName("urilink");
+
+                entity.Property(e => e.Entrydate)
+                    .HasColumnName("entrydate")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Quantity)
+                    .HasColumnName("quantity")
+                    .HasColumnType("numeric(12,4)");
+
+                entity.Property(e => e.Createdon)
+                    .HasColumnName("createdon")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Modifiedon)
+                    .HasColumnName("modifiedon")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Modifiedby)
+                    .IsRequired()
+                    .HasColumnName("modifiedby")
+                    .HasColumnType("character varying(255)")
+                    .HasDefaultValueSql("''::character varying");
+
+                entity.Property(e => e.Createdby)
+                    .HasColumnName("createdby")
+                    .HasColumnType("character varying(255)")
+                    .HasDefaultValueSql("''::character varying");
+
             });
 
             modelBuilder.Entity<Addresstype>(entity =>

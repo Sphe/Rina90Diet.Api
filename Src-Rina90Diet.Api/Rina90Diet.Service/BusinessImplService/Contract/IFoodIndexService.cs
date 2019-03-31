@@ -12,5 +12,7 @@ namespace Rina90Diet.Service.BusinessImplService.Contract
         void IndexJsonObject(IEnumerable<Dictionary<string, object>> obj1, string indexName, string type);
 
         Task<SearchResultBodyDto> ExecuteSearch(string query, int size, int skip);
+
+        Task<SearchResultDto> GetByUri(string uri);
     }
 }

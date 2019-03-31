@@ -113,6 +113,8 @@ namespace Rina90Diet.Service
                     throw new Exception("Existing customer");
                 }
 
+                customer.Password = string.Empty;
+
                 var u = await CreateUser(customer);
                 return _mapper.Map<User, CustomerProfile>(u);
             }
