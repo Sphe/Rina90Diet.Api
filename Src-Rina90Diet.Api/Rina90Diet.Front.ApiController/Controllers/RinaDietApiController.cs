@@ -114,6 +114,20 @@ namespace Rina90Diet.ApiController.Controllers
         }
 
         [HttpGet]
+        [Route("/v1/rinadiet/deleteProfileByCustomerProfileId")]
+        [SwaggerOperation("GetDeleteProfileByCustomerProfileId")]
+        [ProducesResponseType(statusCode: 200, type: typeof(bool))]
+        public virtual async Task<IActionResult> GetDeleteProfileByCustomerProfileId(
+            [FromQuery]string customerProfileId)
+        {
+
+            await _rinaDietService.DeleteCustomerProfileByProfileId(customerProfileId);
+
+            return new ObjectResult(true);
+
+        }
+
+        [HttpGet]
         [Route("/v1/rinadiet/activateProfileById")]
         [SwaggerOperation("GetActivateProfileGet")]
         [ProducesResponseType(statusCode: 200, type: typeof(RinaCustomerProfile))]

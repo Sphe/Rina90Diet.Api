@@ -910,6 +910,9 @@ namespace Rina90Diet.Front.ApiWeb
                 entity.Property(e => e.Activated)
                     .HasColumnName("activated");
 
+                entity.Property(e => e.Deleted)
+                    .HasColumnName("deleted");
+
                 entity.Property(e => e.Startdate)
                     .HasColumnName("startdate")
                     .HasColumnType("date");

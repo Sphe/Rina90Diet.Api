@@ -30,5 +30,7 @@ namespace Rina90Diet.Service.BusinessImplService.Contract
         Task<List<RinaCustomerProfile>> ListProfileByCustomerId(string customerId);
 
         Task<RinaCustomerProfile> GetProfileByCustomerProfileId(string customerProfileId);
+
+        Task DeleteCustomerProfileByProfileId(string customerProfileId);
     }
 }

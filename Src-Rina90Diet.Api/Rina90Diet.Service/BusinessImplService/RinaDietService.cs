@@ -134,9 +134,24 @@ namespace Rina90Diet.Service.BusinessImplService
 
         public async Task<List<RinaCustomerProfile>> ListProfileByCustomerId(string customerId)
         {
-            var cpListForCustomer = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == customerId);
+            var cpListForCustomer = await _genService.GetListByPredicateAsync((a) => a.Userid.ToString() == customerId && a.Deleted != true);
 
             return cpListForCustomer;
+        }
+
+        public async Task DeleteCustomerProfileByProfileId(string customerProfileId)
+        {
+            var rcp1 = await GetProfileByCustomerProfileId(customerProfileId);
+
+            rcp1.Deleted = true;
+            
+            await _genService.UpdateAsync(rcp1, x1 => x1.Customerprofileid.ToString() == rcp1.CustomerProfileId);
+            var errors2 = await _unitOfWork.CommitHandledAsync();
+
+            if (!errors2)
+            {
+                _logger.LogError($"Can't Update Profile ! { JsonConvert.SerializeObject(rcp1, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })} ");
+            }
         }
 
         public async Task<RinaCustomerStatistic> GetCustomerStatistic(string customerId)

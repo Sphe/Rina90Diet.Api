@@ -40,6 +40,8 @@ namespace Rina90Diet.Dto
 
         public bool? Activated { get; set; }
 
+        public bool? Deleted { get; set; }
+
         public List<CustomerWeightEntry> EntryHistoryList { get; set; }
 
         public RinaSession AssociatedSession { get; set; }

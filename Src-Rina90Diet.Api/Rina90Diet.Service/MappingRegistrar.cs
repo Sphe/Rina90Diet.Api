@@ -157,6 +157,7 @@ namespace Rina90Diet.Service
                         .ForMember(d => d.Startdate, opt => opt.MapFrom(f => f.StartDate))
                         .ForMember(d => d.Enddate, opt => opt.MapFrom(f => f.EndDate))
                         .ForMember(d => d.Activated, opt => opt.MapFrom(f => f.Activated))
+                        .ForMember(d => d.Deleted, opt => opt.MapFrom(f => f.Deleted))
                         .ForMember(d => d.Heightinm, opt => opt.MapFrom(f => f.HeightInM));
 
                     cfg.CreateMap<Customerprofile, RinaCustomerProfile>()
@@ -171,6 +172,7 @@ namespace Rina90Diet.Service
                         .ForMember(d => d.TargetWeight, opt => opt.MapFrom(f => f.Targetweight))
                         .ForMember(d => d.TotalDietDays, opt => opt.MapFrom(f => f.Numberdietdays))
                         .ForMember(d => d.Activated, opt => opt.MapFrom(f => f.Activated))
+                        .ForMember(d => d.Deleted, opt => opt.MapFrom(f => f.Deleted))
                         .ForMember(d => d.StartDate, opt => opt.MapFrom(f => f.Startdate))
                         .ForMember(d => d.EndDate, opt => opt.MapFrom(f => f.Enddate))
                         .ForMember(d => d.HeightInM, opt => opt.MapFrom(f => f.Heightinm));

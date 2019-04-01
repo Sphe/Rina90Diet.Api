@@ -29,6 +29,8 @@ namespace Rina90Diet.Front.ApiWeb
         public bool Iswaterday { get; set; }
         public bool? Activated { get; set; }
 
+        public bool? Deleted { get; set; }
+
         public User User { get; set; }
         public ICollection<Customerweightentry> Customerweightentry { get; set; }
     }
